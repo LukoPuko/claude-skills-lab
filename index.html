@@ -693,112 +693,13 @@ footer{padding:80px 0 48px;border-top:1px solid var(--border);margin-top:80px;fo
         </div>
       </div>
 
-      <!-- Tab D: MEGA -->
+      <!-- Tab D: MEGA — generated from the live SKILLS array, see buildMegaPane() in JS -->
       <div class="install-pane" id="pane-mega" role="tabpanel">
         <div class="install-body">
-<pre id="cmd-mega"><span class="cmt"># ─────────────────────────────────────────────────────</span>
-<span class="cmt"># MEGA PACK — ALLES auf einmal · 50+ Repos · 500+ Skills</span>
-<span class="cmt"># ⚠️  ~5 min install · 200MB+ disk · power users only</span>
-<span class="cmt"># ─────────────────────────────────────────────────────</span>
-
-<span class="cmt"># OFFICIAL ANTHROPIC ────────────────────────────────</span>
-<span class="pre">npx</span> skills add anthropics/skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># CORE FRAMEWORKS ───────────────────────────────────</span>
-<span class="pre">npx</span> skills add obra/superpowers <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add mattpocock/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add forrestchang/andrej-karpathy-skills <span class="opt">-g -a</span> claude-code -y
-<span class="pre">npx</span> skills add OthmanAdi/planning-with-files <span class="opt">-g -a</span> claude-code -y
-
-<span class="cmt"># FRONTEND + UI ─────────────────────────────────────</span>
-<span class="pre">npx</span> skills add vercel-labs/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add vercel-labs/next-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add shadcn/ui <span class="opt">-g -a</span> claude-code -y
-<span class="pre">npx</span> skills add angular/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add onmax/nuxt-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add vuejs-ai/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add addyosmani/web-quality-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add ibelick/ui-skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># DESIGN ────────────────────────────────────────────</span>
-<span class="pre">npx</span> skills add pbakaus/impeccable <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add leonxlnx/taste-skill <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add emilkowalski/skill <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add figma/skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># INFRASTRUCTURE / DEVOPS ──────────────────────────</span>
-<span class="pre">npx</span> skills add cloudflare/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add hashicorp/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add netlify/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add pulumi/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add itsmostafa/aws-agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add microsoft/azure-skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># DATABASES ────────────────────────────────────────</span>
-<span class="pre">npx</span> skills add supabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add neondatabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add clickhouse/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add tinybirdco/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add planetscale/database-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add get-convex/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add tursodatabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add firebase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># AI / LLM / RAG ───────────────────────────────────</span>
-<span class="pre">npx</span> skills add huggingface/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add google-gemini/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add veniceai/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add replicate/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add fal-ai-community/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add K-Dense-AI/scientific-agent-skills <span class="opt">-g -a</span> claude-code -y
-
-<span class="cmt"># MOBILE ───────────────────────────────────────────</span>
-<span class="pre">npx</span> skills add expo/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add callstackincubator/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add flutter/skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># SECURITY ─────────────────────────────────────────</span>
-<span class="pre">npx</span> skills add trailofbits/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add mukul975/Anthropic-Cybersecurity-Skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add BehiSecc/VibeSec-Skill <span class="opt">-g -a</span> claude-code -y
-
-<span class="cmt"># OBSERVABILITY ────────────────────────────────────</span>
-<span class="pre">npx</span> skills add getsentry/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># PAYMENTS / AUTH / API ────────────────────────────</span>
-<span class="pre">npx</span> skills add stripe/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add better-auth/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add composiohq/skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add googleworkspace/skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># TESTING + QA ─────────────────────────────────────</span>
-<span class="pre">npx</span> skills add currents-dev/playwright-best-practices-skill <span class="opt">-g -a</span> claude-code -y
-
-<span class="cmt"># SCRAPING ─────────────────────────────────────────</span>
-<span class="pre">npx</span> skills add firecrawl/cli <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add apify/agent-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add browserbase/skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># MARKETING (DEEP) ─────────────────────────────────</span>
-<span class="pre">npx</span> skills add coreyhaines31/marketingskills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add realkimbarrett/advertising-skills <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># PRODUCTIVITY ─────────────────────────────────────</span>
-<span class="pre">npx</span> skills add michalparkola/tapestry-skills-for-claude-code <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add deanpeters/Product-Manager-Skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add larksuite/cli <span class="opt">--all -g -a</span> claude-code -y
-
-<span class="cmt"># EDUCATION + RESEARCH ─────────────────────────────</span>
-<span class="pre">npx</span> skills add Imbad0202/academic-research-skills <span class="opt">--all -g -a</span> claude-code -y
-<span class="pre">npx</span> skills add wanshuiyin/Auto-claude-code-research-in-sleep <span class="opt">-g -a</span> claude-code -y
-
-<span class="cmt"># OPTIONAL: GLOBAL SEARCH ───────────────────────────</span>
-<span class="pre">npx</span> skills add vercel-labs/skills <span class="opt">--skill</span> find-skills <span class="opt">-g -a</span> claude-code -y
-
-<span class="cmt"># 🎉 Done. Restart Claude Code. /help shows all new skills.</span></pre>
+<pre id="cmd-mega"><span class="cmt"># Loading the full install bundle from the live skills index…</span></pre>
         </div>
         <div class="copy-bar">
-          <div class="left">~50 repos · 500+ skills · 5min install · MAX power mode</div>
+          <div class="left"><span id="megaStats">…</span> · MAX power mode</div>
           <button class="copy-btn" data-copy-target="cmd-mega">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             Copy MEGA
@@ -1281,6 +1182,95 @@ const SKILLS = [
   {n:'manim-skill', d:'Animation generation using Manim — explanatory math/CS animations in 3Blue1Brown style.', a:'adithya-s-k', c:'education', i:'git clone https://github.com/adithya-s-k/manim_skill', g:'https://github.com/adithya-s-k/manim_skill', s:'328★', r:4},
 ];
 
+// ─── Derive every unique install source from the SKILLS array ───
+// Returns array of { catId, group:{type,value}, cmd } objects, deduped.
+function extractInstallGroup(s) {
+  if (s.b) return null; // built-in slash commands have no install
+  const cmd = (s.i || '').trim();
+  if (!cmd || cmd.startsWith('/')) return null;
+
+  // npx skills add owner/repo[/subskill] [--flags]
+  const skillsMatch = cmd.match(/^npx\s+skills\s+add\s+(\S+)/);
+  if (skillsMatch) {
+    const path = skillsMatch[1];
+    const parts = path.split('/');
+    if (parts.length >= 2) return { type: 'repo', value: parts[0] + '/' + parts[1] };
+    return { type: 'name', value: path };
+  }
+  // git clone https://github.com/owner/repo[.git]
+  const gitMatch = cmd.match(/git\s+clone\s+https?:\/\/github\.com\/(\S+\/\S+?)(?:\.git)?(?:\s|$)/);
+  if (gitMatch) return { type: 'git', value: gitMatch[1] };
+  // npx skillkit@... install owner/repo
+  const kitMatch = cmd.match(/^npx\s+skillkit\S*\s+install\s+(\S+)/);
+  if (kitMatch) return { type: 'skillkit', value: kitMatch[1] };
+  // npx claude-code-templates@... --skill path
+  const tplMatch = cmd.match(/^npx\s+claude-code-templates\S*.*?--skill\s+(\S+)/);
+  if (tplMatch) return { type: 'template', value: tplMatch[1] };
+  // Anything else: keep the original line as a one-shot install
+  return { type: 'oneshot', value: cmd };
+}
+
+function buildInstallCmd(group) {
+  switch (group.type) {
+    case 'repo':     return `npx skills add ${group.value} --all -g -a claude-code -y`;
+    case 'name':     return `npx skills add ${group.value} -g -a claude-code -y`;
+    case 'git':      return `git clone https://github.com/${group.value}`;
+    case 'skillkit': return `npx skillkit@latest install ${group.value}`;
+    case 'template': return `npx claude-code-templates@latest --skill ${group.value}`;
+    default:         return group.value;
+  }
+}
+
+function deriveAllInstalls() {
+  const seen = new Set();
+  const out = [];
+  // Walk SKILLS in array order so categories cluster in their declaration order
+  SKILLS.forEach(s => {
+    const g = extractInstallGroup(s);
+    if (!g) return;
+    const key = g.type + ':' + g.value;
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push({ catId: s.c, group: g, cmd: buildInstallCmd(g), skill: s });
+  });
+  return out;
+}
+
+function buildMegaPane() {
+  const all = deriveAllInstalls();
+  const totalSources = all.length;
+  const totalSkills = SKILLS.filter(s => !s.b).length;
+
+  // Group by category, in the order categories are declared in C
+  const byCat = {};
+  all.forEach(item => {
+    if (!byCat[item.catId]) byCat[item.catId] = [];
+    byCat[item.catId].push(item);
+  });
+
+  const lines = [];
+  lines.push(`<span class="cmt"># ─────────────────────────────────────────────────────</span>`);
+  lines.push(`<span class="cmt"># MEGA PACK — auto-generated from the live skills index</span>`);
+  lines.push(`<span class="cmt"># ${totalSources} unique sources · ${totalSkills} skills · ~5 min install · 200MB+ disk</span>`);
+  lines.push(`<span class="cmt"># ─────────────────────────────────────────────────────</span>`);
+  lines.push('');
+
+  Object.entries(C).forEach(([catId, cat]) => {
+    const items = byCat[catId];
+    if (!items || !items.length) return;
+    lines.push(`<span class="cmt"># ── ${cat.n.toUpperCase()} (${items.length}) ─────────────────</span>`);
+    items.forEach(it => lines.push(fmtCmd(it.cmd)));
+    lines.push('');
+  });
+
+  lines.push(`<span class="cmt"># 🎉 Done. Restart Claude Code. Run /help to see everything new.</span>`);
+
+  document.getElementById('cmd-mega').innerHTML = lines.join('\n');
+  const stats = document.getElementById('megaStats');
+  if (stats) stats.textContent = `${totalSources} sources · ${totalSkills} skills · ~5 min install`;
+  return all;
+}
+
 // ─── Auto-install prompts (Claude Code natural-language prompts) ──
 const ESSENTIAL_REPOS = [
   ['anthropics/skills', 'Official Anthropic suite (docx, pdf, pptx, xlsx, frontend-design, etc.)'],
@@ -1331,10 +1321,16 @@ const POWER_REPOS = [
   ['deusyu/translate-book', 'Book translation'],
 ];
 
-const MEGA_REPOS = [...ESSENTIAL_REPOS.map(r => r[0]), ...POWER_REPOS.map(r => r[0]), 'apify/agent-skills', 'browserbase/skills', 'shadcn/ui', 'figma/skills', 'forrestchang/andrej-karpathy-skills', 'OthmanAdi/planning-with-files', 'wanshuiyin/Auto-claude-code-research-in-sleep', 'addyosmani/web-quality-skills', 'better-auth/skills'];
+// MEGA install commands are derived from SKILLS at init time (see buildMegaPrompt below).
 
-function buildAutoInstallPrompt(name, repos, intro) {
-  const cmds = repos.map(r => Array.isArray(r) ? `npx skills add ${r[0]} --all -g -a claude-code -y  # ${r[1]}` : `npx skills add ${r} --all -g -a claude-code -y`).join('\n');
+function buildAutoInstallPrompt(name, items, intro) {
+  const cmds = items.map(item => {
+    if (Array.isArray(item)) return `npx skills add ${item[0]} --all -g -a claude-code -y  # ${item[1]}`;
+    // Pre-built command strings (npx/git/pip/npm) pass through verbatim
+    if (typeof item === 'string' && /^(npx|git|pip|npm|\/)/.test(item)) return item;
+    if (typeof item === 'string') return `npx skills add ${item} --all -g -a claude-code -y`;
+    return '';
+  }).filter(Boolean).join('\n');
   return `I want you to install the **${name}** of Claude Code skills for me. ${intro}
 
 Run each install command below one at a time. After each, briefly confirm "✓ <repo>" if it succeeded, or "✗ <repo>: <reason>" if it failed — then continue with the next one. Do NOT stop on errors.
@@ -1367,9 +1363,11 @@ const PROMPTS = [
   },
   {
     icon:'🌌', title:'Install MEGA — everything',
-    tag:'500+ skills', accent:'var(--pink)',
-    desc:'All repos this site indexes. Massive. Token-hungry. But you\'ll never need to install another skill again.',
-    body: buildAutoInstallPrompt('MEGA Pack', MEGA_REPOS, 'This is the full kitchen sink — every repo from this directory. Expect ~5 minutes runtime and 200MB+ disk usage.')
+    tag:'all sources', accent:'var(--pink)',
+    desc:'Every install source this directory indexes. Auto-derived from the live skills list — guaranteed complete.',
+    bodyFn: () => buildAutoInstallPrompt('MEGA Pack',
+      deriveAllInstalls().map(it => it.cmd),
+      `This is the full kitchen sink — every install source from the directory (${deriveAllInstalls().length} sources covering ${SKILLS.filter(s => !s.b).length} skills). Expect ~5 minutes runtime and 200MB+ disk usage.`)
   },
   {
     icon:'🎯', title:'By category — interactive',
@@ -1421,7 +1419,9 @@ Don't actually delete anything — just propose, then wait for my approval.`
 function renderPrompts() {
   const grid = document.getElementById('promptsGrid');
   if (!grid) return;
-  grid.innerHTML = PROMPTS.map((p, idx) => `
+  // Resolve body for each prompt (bodyFn takes precedence — used for live-derived MEGA)
+  const resolved = PROMPTS.map(p => ({ ...p, body: p.bodyFn ? p.bodyFn() : p.body }));
+  grid.innerHTML = resolved.map((p, idx) => `
     <article class="prompt-card" style="--accent:${p.accent}">
       <div class="pc-head">
         <div style="display:flex;gap:12px;align-items:center">
@@ -1431,7 +1431,7 @@ function renderPrompts() {
         <span class="pc-tag">${escHtml(p.tag)}</span>
       </div>
       <p class="pc-desc">${escHtml(p.desc)}</p>
-      <div class="pc-body" id="prompt-${idx}">${escHtml(p.body)}</div>
+      <div class="pc-body">${escHtml(p.body)}</div>
       <div class="pc-foot">
         <span class="meta">~${p.body.split('\n').length} lines</span>
         <button class="copy-btn" data-copy-prompt="${idx}">
@@ -1445,13 +1445,16 @@ function renderPrompts() {
     const btn = e.target.closest('[data-copy-prompt]');
     if (!btn) return;
     const idx = parseInt(btn.dataset.copyPrompt, 10);
-    const ok = await copyText(PROMPTS[idx].body);
+    const text = resolved[idx].body;
+    const ok = await copyText(text);
     if (ok) {
       btn.classList.add('is-copied');
       const orig = btn.innerHTML;
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> Copied prompt';
       showToast('Prompt copied — paste into Claude Code');
       setTimeout(() => { btn.classList.remove('is-copied'); btn.innerHTML = orig; }, 2000);
+    } else {
+      showToast('Copy failed — select the text manually');
     }
   });
 }
@@ -1641,6 +1644,7 @@ function debounce(fn, ms) {
 function init() {
   renderPills();
   renderCatGrid();
+  buildMegaPane();
   renderPrompts();
   applyFilters();
   animateCounters();
