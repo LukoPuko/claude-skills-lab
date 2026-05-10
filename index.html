@@ -1,0 +1,1791 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="The community directory of Claude Code skills — copy-paste install commands, browse by category, ship faster.">
+<title>~/skills.lab · Claude Code skills directory</title>
+
+<link rel="canonical" href="https://lukopuko.github.io/claude-skills-lab/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070a0f'/%3E%3Crect x='6' y='6' width='20' height='20' fill='none' stroke='%2300e5ff' stroke-width='2'/%3E%3Crect x='10' y='10' width='12' height='2' fill='%2300e5ff'/%3E%3Crect x='10' y='15' width='8' height='2' fill='%2300e5ff'/%3E%3Crect x='10' y='20' width='10' height='2' fill='%2300e5ff'/%3E%3C/svg%3E">
+
+<meta property="og:title" content="~/skills.lab · Claude Code skills directory">
+<meta property="og:description" content="A curated, community-maintained directory of Claude Code skills. Browse, search, copy-paste install.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ────────────────────────────────────────────────────────────
+   Reset + tokens
+   ──────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+:root{
+  --bg:#070a0f;
+  --bg-elev:#0c1118;
+  --bg-card:#0a0e15;
+  --bg-card-hover:#0e131c;
+  --border:rgba(255,255,255,.07);
+  --border-strong:rgba(0,229,255,.28);
+  --text:#e8eef5;
+  --text-2:rgba(232,238,245,.65);
+  --text-3:rgba(232,238,245,.42);
+  --text-4:rgba(232,238,245,.22);
+  --cyan:#00e5ff;
+  --cyan-d:#00b8d4;
+  --purple:#7c3aed;
+  --purple-2:#a855f7;
+  --pink:#ff2d92;
+  --green:#00ff9c;
+  --orange:#ff9d00;
+  --shadow-cyan:0 0 40px rgba(0,229,255,.15);
+  --grid:rgba(255,255,255,.025);
+  --max:1320px;
+  --radius:0; /* brutalist: zero */
+  --radius-sm:2px;
+  --gap:24px;
+  --gap-lg:48px;
+  --t-fast:120ms cubic-bezier(.4,0,.2,1);
+  --t-med:240ms cubic-bezier(.4,0,.2,1);
+}
+
+html,body{background:var(--bg);color:var(--text);font-family:'Space Mono',ui-monospace,monospace;font-size:14px;line-height:1.55;overflow-x:hidden}
+body{min-height:100vh;position:relative}
+img,svg{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+input{font:inherit;color:inherit;background:none;border:0;outline:0}
+input::placeholder{color:var(--text-3)}
+::selection{background:var(--cyan);color:#000}
+
+/* ────────────────────────────────────────────────────────────
+   Texture: noise + grid overlays
+   ──────────────────────────────────────────────────────────── */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.grid-overlay{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%)}
+
+/* ────────────────────────────────────────────────────────────
+   Layout
+   ──────────────────────────────────────────────────────────── */
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+@media(max-width:640px){.wrap{padding:0 16px}}
+
+/* ────────────────────────────────────────────────────────────
+   Top bar
+   ──────────────────────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(7,10,15,.72);border-bottom:1px solid var(--border)}
+.topbar-row{display:flex;align-items:center;gap:24px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.brand-dot{width:10px;height:10px;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.brand .gt{color:var(--cyan)}
+.topbar nav{margin-left:auto;display:flex;gap:18px;font-size:12px;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em}
+.topbar nav a{transition:color var(--t-fast)}
+.topbar nav a:hover{color:var(--cyan)}
+.topbar .pill{padding:5px 10px;border:1px solid var(--border);font-size:11px}
+.topbar .pill.live{border-color:var(--pink);color:var(--pink)}
+.topbar .pill.live::before{content:'';display:inline-block;width:6px;height:6px;background:var(--pink);margin-right:6px;vertical-align:middle;animation:pulse 1.6s ease-in-out infinite;box-shadow:0 0 8px var(--pink)}
+@media(max-width:720px){.topbar nav{display:none}}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+
+/* ────────────────────────────────────────────────────────────
+   Hero
+   ──────────────────────────────────────────────────────────── */
+.hero{position:relative;padding:72px 0 48px;min-height:78vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
+.hero-bg::before,.hero-bg::after{content:'';position:absolute;width:60vw;height:60vw;max-width:900px;max-height:900px;border-radius:50%;filter:blur(120px);opacity:.55;animation:blob 22s ease-in-out infinite}
+.hero-bg::before{background:radial-gradient(circle,var(--cyan) 0%,transparent 70%);top:-15%;left:-10%}
+.hero-bg::after{background:radial-gradient(circle,var(--purple) 0%,transparent 70%);bottom:-25%;right:-15%;animation-delay:-10s}
+@keyframes blob{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(8%,-4%) scale(1.1)}66%{transform:translate(-6%,6%) scale(.95)}}
+
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:32px;font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--text-3)}
+.hero-eyebrow .live-dot{width:8px;height:8px;background:var(--pink);box-shadow:0 0 12px var(--pink);animation:pulse 1.6s ease-in-out infinite}
+.hero-eyebrow .bar{flex:1;height:1px;background:linear-gradient(90deg,var(--border) 0%,transparent 100%);max-width:120px}
+
+.hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.2rem,11.5vw,11rem);line-height:.86;letter-spacing:-.045em;margin-bottom:32px;position:relative}
+.hero-title .l1{display:block;color:var(--text)}
+.hero-title .l2{display:block;background:linear-gradient(90deg,var(--cyan) 0%,var(--purple-2) 60%,var(--pink) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative}
+.hero-title .l2::after{content:'_';color:var(--cyan);-webkit-text-fill-color:var(--cyan);animation:caret 1s steps(2) infinite;font-weight:600;margin-left:.06em}
+@keyframes caret{50%{opacity:0}}
+
+.hero-sub{font-size:18px;line-height:1.5;color:var(--text-2);max-width:640px;margin-bottom:40px}
+.hero-sub strong{color:var(--text);font-weight:400;background:rgba(0,229,255,.08);padding:1px 6px;border-bottom:1px solid var(--cyan)}
+@media(max-width:720px){.hero-sub{font-size:15px}}
+
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);max-width:760px}
+.hero-stat{background:var(--bg);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.hero-stat .v{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(20px,3.4vw,32px);color:var(--cyan);line-height:1;font-feature-settings:"tnum"}
+.hero-stat .l{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--text-3)}
+@media(max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+.hero-cta{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border:1px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;transition:all var(--t-med);position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-1px)}
+.btn-prime{background:var(--cyan);color:#000;border-color:var(--cyan);box-shadow:var(--shadow-cyan)}
+.btn-prime:hover{background:#5af0ff;box-shadow:0 0 50px rgba(0,229,255,.4)}
+.btn-ghost{color:var(--text);border-color:var(--border-strong)}
+.btn-ghost:hover{background:rgba(0,229,255,.05);border-color:var(--cyan)}
+.btn svg{width:14px;height:14px}
+
+/* ────────────────────────────────────────────────────────────
+   Section heading
+   ──────────────────────────────────────────────────────────── */
+.section{padding:80px 0;position:relative}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;flex-wrap:wrap}
+.section-head h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(2rem,5vw,3.6rem);letter-spacing:-.025em;line-height:.95;max-width:780px}
+.section-head h2 .accent{color:var(--cyan)}
+.section-head .label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--text-3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-head .label::before{content:'';width:24px;height:1px;background:var(--cyan)}
+.section-head p{color:var(--text-2);max-width:480px;font-size:14px;line-height:1.6}
+
+/* ────────────────────────────────────────────────────────────
+   Install: tabbed terminal
+   ──────────────────────────────────────────────────────────── */
+.install-card{border:1px solid var(--border);background:linear-gradient(180deg,var(--bg-elev) 0%,var(--bg) 100%);position:relative}
+.install-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.5}
+
+.install-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(0,0,0,.4);min-height:44px;padding:0 16px;flex-wrap:wrap;gap:8px}
+.install-tabs{display:flex;gap:2px;flex-wrap:wrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.install-tabs::-webkit-scrollbar{display:none}
+@media(max-width:520px){.install-tabs{flex-wrap:nowrap}}
+.install-tab{padding:14px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);border:0;border-bottom:2px solid transparent;background:transparent;transition:all var(--t-fast);font-weight:700;white-space:nowrap;flex:none}
+.install-tab:hover{color:var(--text-2)}
+.install-tab.is-active{color:var(--cyan);border-bottom-color:var(--cyan);background:linear-gradient(180deg,rgba(0,229,255,.03) 0%,transparent 100%)}
+.install-tab .badge{font-size:9px;padding:2px 6px;background:var(--cyan);color:#000;margin-left:8px;letter-spacing:.06em;font-weight:700}
+.install-tab.is-active .badge{background:var(--cyan)}
+.term-dots{display:flex;gap:6px;padding:8px 0}
+.term-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.16)}
+.term-dots span:nth-child(1){background:#ff5f56}
+.term-dots span:nth-child(2){background:#ffbd2e}
+.term-dots span:nth-child(3){background:#27c93f}
+
+.install-body{padding:24px;font-family:'Space Mono',ui-monospace,monospace;font-size:13px;line-height:1.7;background:#04060a;border-top:0;color:#c8d4e0;position:relative;max-height:520px;overflow-y:auto}
+.install-body pre{white-space:pre-wrap;word-break:break-all}
+.install-body .cmt{color:var(--text-3);font-style:italic}
+.install-body .pre{color:var(--cyan)}
+.install-body .cmd{color:var(--text)}
+.install-body .arg{color:var(--purple-2)}
+.install-body .opt{color:var(--orange)}
+.install-body .str{color:#a3e635}
+.install-line{display:flex;gap:12px;padding:2px 0}
+.install-line.is-cmt{color:var(--text-3)}
+.install-pane{display:none}
+.install-pane.is-active{display:block;animation:fade .2s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.copy-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(255,255,255,.02);border-top:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3)}
+.copy-bar .left{display:flex;align-items:center;gap:8px}
+.copy-bar .left::before{content:'';width:6px;height:6px;background:var(--green);box-shadow:0 0 8px var(--green)}
+.copy-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--border-strong);color:var(--cyan);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;transition:all var(--t-fast)}
+.copy-btn:hover{background:var(--cyan);color:#000}
+.copy-btn.is-copied{background:var(--green);color:#000;border-color:var(--green)}
+.copy-btn svg{width:12px;height:12px}
+
+/* By-Category tab */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border)}
+.cat-cell{background:#04060a;padding:18px;cursor:pointer;transition:background var(--t-fast);position:relative}
+.cat-cell:hover{background:#0a1118}
+.cat-cell .ic{font-size:22px;margin-bottom:10px;display:block}
+.cat-cell .nm{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:6px;color:var(--text);text-transform:uppercase;letter-spacing:.04em}
+.cat-cell .ct{font-size:11px;color:var(--text-3);font-family:'Space Mono',monospace}
+.cat-cell .cmd{margin-top:14px;font-size:11px;color:var(--cyan);word-break:break-all;opacity:.85;line-height:1.5}
+
+/* ────────────────────────────────────────────────────────────
+   Filter bar
+   ──────────────────────────────────────────────────────────── */
+.filter-row{display:flex;align-items:center;gap:16px;margin-bottom:32px;flex-wrap:wrap;border:1px solid var(--border);background:var(--bg-elev);padding:14px 16px;position:sticky;top:56px;z-index:10;backdrop-filter:blur(12px)}
+.search{display:flex;align-items:center;gap:12px;flex:1;min-width:240px}
+.search svg{width:16px;height:16px;color:var(--text-3);flex:none}
+.search input{flex:1;padding:6px 0;font-size:13px}
+.search .kbd{padding:2px 6px;border:1px solid var(--border);font-size:10px;color:var(--text-3);font-family:'Space Mono',monospace}
+
+.sort-select{padding:6px 10px;border:1px solid var(--border);background:var(--bg);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-2);cursor:pointer}
+
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:32px;align-items:center}
+.cat-pill{padding:7px 12px;border:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-2);cursor:pointer;transition:all var(--t-fast);display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.cat-pill:hover{border-color:var(--border-strong);color:var(--text)}
+.cat-pill.is-active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.cat-pill .ic{font-size:13px}
+.cat-pill .ct{font-size:10px;opacity:.6}
+
+/* ────────────────────────────────────────────────────────────
+   Skill cards grid
+   ──────────────────────────────────────────────────────────── */
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);position:relative}
+@media(max-width:520px){.skill-grid{grid-template-columns:1fr}}
+
+.skill-card{background:var(--bg-card);padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:background var(--t-fast),transform var(--t-fast);min-height:240px}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--cyan));opacity:0;transition:opacity var(--t-fast)}
+.skill-card::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(0,229,255,.03) 3px,rgba(0,229,255,.03) 4px);opacity:0;transition:opacity var(--t-med);pointer-events:none}
+.skill-card:hover{background:var(--bg-card-hover)}
+.skill-card:hover::before{opacity:1}
+.skill-card:hover::after{opacity:1}
+.skill-card.is-featured{background:linear-gradient(135deg,rgba(0,229,255,.04) 0%,rgba(124,58,237,.04) 100%)}
+
+.sk-row1{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.sk-cat{display:inline-flex;align-items:center;gap:6px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent,var(--cyan));font-weight:700}
+.sk-cat .ic{font-size:13px}
+.sk-tags{display:flex;gap:6px;flex-wrap:wrap}
+.sk-tag{font-size:9px;padding:2px 6px;border:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);font-weight:700}
+.sk-tag.official{color:var(--cyan);border-color:rgba(0,229,255,.3)}
+.sk-tag.featured{color:var(--pink);border-color:rgba(255,45,146,.3)}
+.sk-tag.builtin{color:var(--green);border-color:rgba(0,255,156,.3)}
+
+.sk-name{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.015em;line-height:1.2;color:var(--text);word-break:break-word}
+.sk-author{font-size:11px;color:var(--text-3);font-family:'Space Mono',monospace}
+.sk-author a:hover{color:var(--cyan)}
+.sk-desc{font-size:13px;color:var(--text-2);line-height:1.5;flex:1}
+
+.sk-rating{display:flex;gap:2px;font-size:11px}
+.sk-rating .star{color:var(--text-4)}
+.sk-rating .star.on{color:var(--orange)}
+
+.sk-row-bot{margin-top:auto;padding-top:14px;border-top:1px dashed var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sk-stars{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;display:inline-flex;align-items:center;gap:4px}
+.sk-actions{display:flex;gap:8px}
+.sk-icon-btn{width:28px;height:28px;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;color:var(--text-2);transition:all var(--t-fast)}
+.sk-icon-btn:hover{background:var(--cyan);border-color:var(--cyan);color:#000}
+.sk-icon-btn.is-copied{background:var(--green);border-color:var(--green);color:#000}
+.sk-icon-btn svg{width:13px;height:13px}
+
+.sk-cmd{font-family:'Space Mono',monospace;font-size:11px;color:var(--text-3);background:#04060a;padding:8px 10px;border:1px solid var(--border);overflow-x:auto;white-space:nowrap;-ms-overflow-style:none;scrollbar-width:none}
+.sk-cmd::-webkit-scrollbar{display:none}
+.sk-cmd .pre{color:var(--cyan)}
+.sk-cmd .arg{color:var(--purple-2)}
+.sk-cmd .opt{color:var(--text-2)}
+
+/* Empty state */
+.empty{padding:80px 24px;text-align:center;border:1px dashed var(--border);color:var(--text-3)}
+.empty h3{font-family:'Syne',sans-serif;font-size:24px;color:var(--text);margin-bottom:8px}
+
+/* ────────────────────────────────────────────────────────────
+   Stats section (between hero and install)
+   ──────────────────────────────────────────────────────────── */
+.bigstats{padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:linear-gradient(180deg,transparent 0%,rgba(0,229,255,.02) 100%)}
+.bigstats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.bigstats-cell{background:var(--bg);padding:32px 24px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.bigstats-cell::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--accent,var(--cyan));opacity:.3}
+.bigstats-cell .v{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(32px,4.6vw,52px);line-height:.95;color:var(--text);font-feature-settings:"tnum"}
+.bigstats-cell .v .u{color:var(--cyan);font-size:.5em;vertical-align:top;margin-left:4px}
+.bigstats-cell .l{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--text-3)}
+.bigstats-cell .b{font-size:12px;color:var(--text-2);margin-top:auto;padding-top:8px}
+@media(max-width:720px){.bigstats-row{grid-template-columns:repeat(2,1fr)}}
+
+/* ────────────────────────────────────────────────────────────
+   Why-section
+   ──────────────────────────────────────────────────────────── */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+@media(max-width:720px){.why-grid{grid-template-columns:1fr}}
+.why-cell{background:var(--bg);padding:28px;position:relative}
+.why-cell .num{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--cyan);margin-bottom:18px}
+.why-cell h3{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:12px;letter-spacing:-.01em}
+.why-cell p{font-size:13px;color:var(--text-2);line-height:1.6}
+
+/* ────────────────────────────────────────────────────────────
+   Footer
+   ──────────────────────────────────────────────────────────── */
+footer{padding:80px 0 48px;border-top:1px solid var(--border);margin-top:80px;font-size:12px;color:var(--text-3)}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+@media(max-width:720px){.foot-grid{grid-template-columns:1fr 1fr;gap:24px}}
+.foot-h{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--text);margin-bottom:14px;text-transform:uppercase;letter-spacing:.08em}
+.foot-list{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:12px}
+.foot-list a{transition:color var(--t-fast)}
+.foot-list a:hover{color:var(--cyan)}
+.foot-bot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:24px;flex-wrap:wrap;gap:16px}
+
+/* ────────────────────────────────────────────────────────────
+   Toasts
+   ──────────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);padding:14px 22px;background:var(--green);color:#000;font-size:12px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;z-index:100;transition:transform var(--t-med);box-shadow:0 0 30px rgba(0,255,156,.5)}
+.toast.is-show{transform:translateX(-50%) translateY(0)}
+
+/* ────────────────────────────────────────────────────────────
+   Misc
+   ──────────────────────────────────────────────────────────── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0}
+.glow-text{text-shadow:0 0 30px currentColor}
+
+/* ────────────────────────────────────────────────────────────
+   Tooltip ⓘ (CSS-only, edge-aware)
+   ──────────────────────────────────────────────────────────── */
+.tip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border:1px solid var(--text-2);color:var(--text-2);border-radius:50%;font-size:9px;font-weight:700;margin-left:8px;cursor:help;position:relative;font-family:'Space Mono',monospace;flex:none}
+.install-tab .tip{margin-left:6px}
+.install-tab.is-active .tip{border-color:var(--cyan);color:var(--cyan)}
+.tip:hover,.tip:focus-visible{color:var(--text);border-color:var(--text);outline:0}
+.tip::after{content:attr(data-tip);position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:#000;border:1px solid var(--cyan);color:var(--text);padding:12px 14px;font-size:11px;line-height:1.5;letter-spacing:0;text-transform:none;font-weight:400;white-space:normal;width:min(280px,calc(100vw - 32px));text-align:left;opacity:0;pointer-events:none;transition:opacity .15s ease-out;z-index:80;box-shadow:0 4px 24px rgba(0,0,0,.6)}
+.tip::before{content:'';position:absolute;top:calc(100% + 9px);left:50%;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;background:#000;border-left:1px solid var(--cyan);border-top:1px solid var(--cyan);opacity:0;transition:opacity .15s ease-out;z-index:81}
+.tip:hover::after,.tip:hover::before,.tip:focus-visible::after,.tip:focus-visible::before{opacity:1}
+/* Edge-flip: first/last tabs anchor tooltip to their own edge */
+.install-tab:first-child .tip::after{left:0;transform:none}
+.install-tab:first-child .tip::before{left:14px;transform:rotate(45deg)}
+.install-tab:last-child .tip::after{left:auto;right:0;transform:none}
+.install-tab:last-child .tip::before{left:auto;right:14px;transform:rotate(45deg)}
+
+/* ────────────────────────────────────────────────────────────
+   Universal focus styles (a11y)
+   ──────────────────────────────────────────────────────────── */
+.btn:focus-visible,.copy-btn:focus-visible,.cat-pill:focus-visible,.install-tab:focus-visible,.sk-icon-btn:focus-visible,.cat-cell:focus-visible,.contrib-path:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.search input:focus-visible{outline:0}
+.search:focus-within svg{color:var(--cyan)}
+
+/* Skip-to-content */
+.skip{position:absolute;left:-9999px;top:0;background:var(--cyan);color:#000;padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;z-index:200}
+.skip:focus{left:8px;top:8px}
+
+/* ────────────────────────────────────────────────────────────
+   Auto-Install Prompts section
+   ──────────────────────────────────────────────────────────── */
+.prompts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:32px}
+@media(max-width:520px){.prompts-grid{grid-template-columns:1fr}}
+.prompt-card{background:var(--bg-card);padding:24px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:background var(--t-fast);min-height:340px}
+.prompt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--purple-2));opacity:.5}
+.prompt-card:hover{background:var(--bg-card-hover)}
+.pc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pc-icon{font-size:24px;line-height:1}
+.pc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.01em;line-height:1.2}
+.pc-tag{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent,var(--cyan));padding:3px 8px;border:1px solid currentColor;font-weight:700}
+.pc-desc{font-size:12px;color:var(--text-2);line-height:1.5}
+.pc-body{background:#04060a;border:1px solid var(--border);padding:14px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.65;color:#c8d4e0;max-height:200px;overflow-y:auto;white-space:pre-wrap;flex:1;word-break:break-word}
+.pc-body::-webkit-scrollbar{width:6px}
+.pc-body::-webkit-scrollbar-track{background:transparent}
+.pc-body::-webkit-scrollbar-thumb{background:var(--border)}
+.pc-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto}
+.pc-foot .meta{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3)}
+
+/* Hosting hint pill */
+.hosting{margin-top:24px;padding:18px 20px;border:1px dashed var(--border-strong);background:linear-gradient(135deg,rgba(0,229,255,.03) 0%,rgba(124,58,237,.03) 100%);display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;font-size:13px}
+.hosting .h-ico{font-size:22px;flex:none}
+.hosting .h-body{flex:1;min-width:240px}
+.hosting strong{color:var(--cyan)}
+.hosting code{font-family:'Space Mono',monospace;background:rgba(255,255,255,.06);padding:1px 6px;font-size:11px;color:var(--cyan)}
+
+/* MEGA tab badge */
+.install-tab .badge.mega{background:linear-gradient(90deg,var(--pink),var(--purple-2));color:#fff}
+
+/* ────────────────────────────────────────────────────────────
+   Mobile fixes
+   ──────────────────────────────────────────────────────────── */
+@media(max-width:640px){
+  .filter-row{position:static;top:auto}
+  .topbar nav{display:none}
+  .topbar .pill{display:none}
+  .install-tab{padding:11px 14px;font-size:10px}
+  .install-tab .badge{font-size:8px;padding:1px 4px}
+  .hero{min-height:auto;padding:48px 0 32px}
+  .section{padding:48px 0}
+  .install-body{font-size:12px;padding:18px}
+}
+
+/* ────────────────────────────────────────────────────────────
+   Contribute / Community submit
+   ──────────────────────────────────────────────────────────── */
+.contribute-card{position:relative;border:1px solid var(--border);background:var(--bg-elev);overflow:hidden}
+.contrib-bg{position:absolute;inset:0;background:radial-gradient(ellipse at top right,rgba(0,229,255,.08) 0%,transparent 50%),radial-gradient(ellipse at bottom left,rgba(124,58,237,.08) 0%,transparent 50%);pointer-events:none}
+.contrib-content{position:relative;padding:48px}
+@media(max-width:640px){.contrib-content{padding:28px 20px}}
+.contrib-content .label{margin-bottom:14px}
+.contrib-content h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.025em;line-height:.95;margin-bottom:18px;max-width:760px}
+.contrib-content > p{color:var(--text-2);max-width:580px;font-size:14px;line-height:1.6;margin-bottom:36px}
+.contrib-paths{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px}
+@media(max-width:840px){.contrib-paths{grid-template-columns:1fr}}
+.contrib-path{background:var(--bg-card);padding:24px;display:flex;gap:18px;align-items:flex-start;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast);position:relative}
+.contrib-path:hover{background:var(--bg-card-hover)}
+.contrib-path:hover .cp-arrow{transform:translateX(4px);color:var(--cyan)}
+.cp-icon{font-size:24px;line-height:1;flex:none;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-strong);background:rgba(0,229,255,.04)}
+.cp-body{flex:1;min-width:0}
+.cp-body h3{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.005em;margin-bottom:6px;color:var(--text)}
+.cp-body p{font-size:12px;color:var(--text-2);line-height:1.55;margin-bottom:10px}
+.cp-body code{font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);background:rgba(0,229,255,.06);padding:1px 5px}
+.cp-tag{display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);font-weight:700;border:1px solid var(--border);padding:3px 7px}
+.cp-arrow{flex:none;font-family:'Syne',sans-serif;font-size:24px;color:var(--text-3);transition:all var(--t-med);align-self:center}
+.contrib-rules{padding:22px;background:rgba(0,0,0,.25);border:1px solid var(--border);font-size:13px}
+.contrib-rules strong{color:var(--cyan);text-transform:uppercase;letter-spacing:.1em;font-size:11px;display:block;margin-bottom:12px}
+.contrib-rules ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.contrib-rules li{color:var(--text-2);line-height:1.6;padding-left:18px;position:relative}
+.contrib-rules li::before{content:'▸';position:absolute;left:0;color:var(--cyan)}
+.contrib-rules code{font-family:'Space Mono',monospace;font-size:12px;color:var(--cyan);background:rgba(0,229,255,.06);padding:1px 5px}
+
+/* Source line in skill-card */
+.sk-author a{color:var(--cyan);transition:color var(--t-fast)}
+</style>
+</head>
+<body>
+
+<a href="#skills" class="skip">Skip to skills directory</a>
+
+<div class="grid-overlay"></div>
+<div class="noise"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a href="#top" class="brand"><span class="brand-dot"></span><span class="gt">~/</span>skills.lab</a>
+    <nav>
+      <a href="#install">Install</a>
+      <a href="#skills">Browse</a>
+      <a href="#contribute">Contribute</a>
+      <a href="#" id="topRepoLink" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+    <div class="pill live" aria-label="live skill count"><span id="topcount">…</span> SKILLS</div>
+    <a href="#" id="topSubmitLink" class="btn btn-prime" style="padding:8px 14px;font-size:11px" target="_blank" rel="noopener">+ Submit</a>
+  </div>
+</header>
+
+<!-- ──────────────── HERO ──────────────── -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span class="live-dot"></span>
+      <span>LIVE INDEX</span>
+      <span class="bar"></span>
+      <span>v2026.05 · UPDATED <span id="today">MAY 10</span></span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="l1">Ultimate Claude</span>
+      <span class="l2">Code Skills</span>
+    </h1>
+
+    <p class="hero-sub">
+      The most comprehensive directory of <strong>Anthropic-grade and community Claude Code skills</strong>.
+      Curated from <strong>15+ sources</strong> across the entire ecosystem — Anthropic's official repo, the skills.sh marketplace, Vercel Labs, Trail of Bits, Cloudflare, and 100+ community authors.
+      Copy install commands. Filter by category. Ship faster.
+    </p>
+
+    <div class="hero-stats" role="group" aria-label="quick stats">
+      <div class="hero-stat"><span class="v" data-counter-key="total">0</span><span class="l">Curated Skills</span></div>
+      <div class="hero-stat"><span class="v" data-counter="15">0</span><span class="l">Categories</span></div>
+      <div class="hero-stat"><span class="v" data-counter-key="authors">0</span><span class="l">Authors</span></div>
+      <div class="hero-stat"><span class="v" data-counter-key="official">0</span><span class="l">Anthropic</span></div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#install" class="btn btn-prime">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Get the install commands
+      </a>
+      <a href="#skills" class="btn btn-ghost">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Browse all <span id="browseCount">…</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────── BIG STATS ──────────────── -->
+<section class="bigstats">
+  <div class="wrap">
+    <div class="bigstats-row">
+      <div class="bigstats-cell" style="--accent:var(--cyan)">
+        <div class="l">★ Top install</div>
+        <div class="v">1.4<span class="u">M</span></div>
+        <div class="b">find-skills · vercel-labs</div>
+      </div>
+      <div class="bigstats-cell" style="--accent:var(--purple-2)">
+        <div class="l">↑ Most starred</div>
+        <div class="v">174<span class="u">K★</span></div>
+        <div class="b">superpowers · obra</div>
+      </div>
+      <div class="bigstats-cell" style="--accent:var(--pink)">
+        <div class="l">⚡ Anthropic-built</div>
+        <div class="v">17<span class="u">/17</span></div>
+        <div class="b">All official skills indexed</div>
+      </div>
+      <div class="bigstats-cell" style="--accent:var(--green)">
+        <div class="l">⊕ Daily growth</div>
+        <div class="v">+8<span class="u">/wk</span></div>
+        <div class="b">New skills added by community</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────── INSTALL ──────────────── -->
+<section class="section" id="install">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="label">→ Quick start</div>
+        <h2>One-click install <span class="accent">/ three flavors</span></h2>
+      </div>
+      <p>Pick a tab. Copy the commands. Paste into your terminal. Restart Claude Code. That's it — your agent now has new superpowers across documents, design, security, and the whole stack.</p>
+    </div>
+
+    <div class="install-card">
+      <div class="install-bar">
+        <div class="install-tabs" role="tablist" aria-label="Install options">
+          <button class="install-tab is-active" data-tab="essential" role="tab" aria-selected="true" aria-controls="pane-essential" id="tab-essential">
+            Essential Pack
+            <span class="tip" tabindex="0" data-tip="The 15 must-have skills every Claude Code user should run. Covers documents (Word/PDF/Excel), frontend, security reviews, DevOps, testing &amp; productivity. ~30 seconds to install all of them.">i</span>
+            <span class="badge">15</span>
+          </button>
+          <button class="install-tab" data-tab="power" role="tab" aria-selected="false" aria-controls="pane-power" id="tab-power">
+            Power Pack
+            <span class="tip" tabindex="0" data-tip="Essential + 40 extra skills for serious operators. Adds design tooling, the AI/ML stack, mobile, marketing automation, infrastructure-as-code, and education. ~2-3 min total install.">i</span>
+            <span class="badge" style="background:var(--purple-2)">40+</span>
+          </button>
+          <button class="install-tab" data-tab="category" role="tab" aria-selected="false" aria-controls="pane-category" id="tab-category">
+            By Category
+            <span class="tip" tabindex="0" data-tip="15 themed bundles. Click any category to copy install commands for only its top skills. Useful when you only need, say, marketing or security — and want to skip the rest.">i</span>
+            <span class="badge" style="background:var(--pink)">15×</span>
+          </button>
+          <button class="install-tab" data-tab="mega" role="tab" aria-selected="false" aria-controls="pane-mega" id="tab-mega">
+            Mega
+            <span class="tip" tabindex="0" data-tip="The kitchen sink — all 50+ repos this site indexes, &gt;500 skills total. Heads up: ~5 min install, 200MB+ on disk, and your context fills faster. Power users only.">i</span>
+            <span class="badge mega">ALL</span>
+          </button>
+        </div>
+        <div class="term-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+
+      <!-- Tab A: Essential -->
+      <div class="install-pane is-active" id="pane-essential" role="tabpanel">
+        <div class="install-body">
+<pre id="cmd-essential"><span class="cmt"># ─────────────────────────────────────────────────────</span>
+<span class="cmt"># ESSENTIAL PACK — 15 must-haves used by everyone</span>
+<span class="cmt"># Copy-paste into your terminal. Restart Claude Code after.</span>
+<span class="cmt"># ─────────────────────────────────────────────────────</span>
+
+<span class="cmt"># 1) Anthropic's full official suite (17 skills bundled)</span>
+<span class="pre">npx</span> skills add anthropics/skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 2) Vercel Labs — React, Next.js, Web Design Guidelines</span>
+<span class="pre">npx</span> skills add vercel-labs/agent-skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 3) Superpowers — TDD, planning, debugging, parallel agents</span>
+<span class="pre">npx</span> skills add obra/superpowers <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 4) Matt Pocock — TypeScript discipline + grill-me reviews</span>
+<span class="pre">npx</span> skills add mattpocock/skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 5) Trail of Bits — pro-grade security review</span>
+<span class="pre">npx</span> skills add trailofbits/skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 6) Firecrawl — web scraping + browser automation</span>
+<span class="pre">npx</span> skills add firecrawl/cli <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 7) Supabase + database best practices</span>
+<span class="pre">npx</span> skills add supabase/agent-skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 8) Cloudflare — Workers, D1, Durable Objects, R2</span>
+<span class="pre">npx</span> skills add cloudflare/agent-skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 9) Find-skills — discover &amp; install from skills.sh in-session</span>
+<span class="pre">npx</span> skills add vercel-labs/skills <span class="opt">--skill</span> find-skills <span class="opt">-g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 10) Agent-browser — DOM control, navigate, extract</span>
+<span class="pre">npm</span> install -g agent-browser &amp;&amp; agent-browser install
+
+<span class="cmt"># 11) Sentry SDK setup — production error tracking</span>
+<span class="pre">npx</span> skills add getsentry/agent-skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 12) Stripe — payments, subscriptions, invoicing</span>
+<span class="pre">npx</span> skills add stripe/agent-skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 13) Expo — full mobile (iOS + Android via React Native)</span>
+<span class="pre">npx</span> skills add expo/skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 14) Corey Haines marketing — SEO, copy, CRO, growth</span>
+<span class="pre">npx</span> skills add coreyhaines31/marketingskills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># 15) Composio — connect to 1000+ SaaS apps</span>
+<span class="pre">npx</span> skills add composiohq/skills <span class="opt">--all -g -a</span> claude-code <span class="opt">-y</span>
+
+<span class="cmt"># Done. Restart Claude Code. Type /help to see new skills.</span></pre>
+        </div>
+        <div class="copy-bar">
+          <div class="left">15 commands · ~30s install · global flag</div>
+          <button class="copy-btn" data-copy-target="cmd-essential">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy all 15
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab B: Power Pack -->
+      <div class="install-pane" id="pane-power" role="tabpanel">
+        <div class="install-body">
+<pre id="cmd-power"><span class="cmt"># ─────────────────────────────────────────────────────</span>
+<span class="cmt"># POWER PACK — 40+ skills for serious operators</span>
+<span class="cmt"># Adds: design tooling, AI/ML, scientific, devops at scale,</span>
+<span class="cmt"># marketing automation, mobile, infrastructure-as-code.</span>
+<span class="cmt"># ─────────────────────────────────────────────────────</span>
+
+<span class="cmt"># Run the Essential Pack first, then add these:</span>
+
+<span class="cmt"># ── DESIGN ──────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add pbakaus/impeccable <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add leonxlnx/taste-skill <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add emilkowalski/skill <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add coleam00/excalidraw-diagram-skill <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># ── MEDIA + CREATIVE ───────────────────────────────</span>
+<span class="pre">npx</span> skills add remotion-dev/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add fal-ai-community/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add replicate/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── INFRASTRUCTURE / DEVOPS ────────────────────────</span>
+<span class="pre">npx</span> skills add hashicorp/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add netlify/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add pulumi/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add itsmostafa/aws-agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add microsoft/azure-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── DATA / DATABASES ───────────────────────────────</span>
+<span class="pre">npx</span> skills add neondatabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add clickhouse/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add tinybirdco/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add planetscale/database-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add get-convex/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── AI / ML ─────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add huggingface/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add google-gemini/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add veniceai/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add forrestchang/andrej-karpathy-skills <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># ── MOBILE ─────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add callstackincubator/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add conorluddy/ios-simulator-skill <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add twostraws/SwiftUI-Agent-Skill <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add flutter/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── SECURITY (DEEP) ────────────────────────────────</span>
+<span class="pre">npx</span> skills add jthack/threat-hunting-with-sigma-rules-skill <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add jthack/ffuf_claude_skill <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add mukul975/Anthropic-Cybersecurity-Skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── PRODUCTIVITY ───────────────────────────────────</span>
+<span class="pre">npx</span> skills add michalparkola/tapestry-skills-for-claude-code <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add deanpeters/Product-Manager-Skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add larksuite/cli <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── MARKETING (DEEP) ───────────────────────────────</span>
+<span class="pre">npx</span> skills add realkimbarrett/advertising-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add AgriciDaniel/claude-seo <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add rampstackco/claude-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># ── TESTING ────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add currents-dev/playwright-best-practices-skill <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add omkamal/pypict-claude-skill <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># ── EDUCATION + RESEARCH ───────────────────────────</span>
+<span class="pre">npx</span> skills add K-Dense-AI/scientific-agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add Imbad0202/academic-research-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add deusyu/translate-book <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># That's 40+ extra skills. Total: 70+ in one machine.</span></pre>
+        </div>
+        <div class="copy-bar">
+          <div class="left">40+ commands · 2-3 min install · power user mode</div>
+          <button class="copy-btn" data-copy-target="cmd-power">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy all
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab D: MEGA -->
+      <div class="install-pane" id="pane-mega" role="tabpanel">
+        <div class="install-body">
+<pre id="cmd-mega"><span class="cmt"># ─────────────────────────────────────────────────────</span>
+<span class="cmt"># MEGA PACK — ALLES auf einmal · 50+ Repos · 500+ Skills</span>
+<span class="cmt"># ⚠️  ~5 min install · 200MB+ disk · power users only</span>
+<span class="cmt"># ─────────────────────────────────────────────────────</span>
+
+<span class="cmt"># OFFICIAL ANTHROPIC ────────────────────────────────</span>
+<span class="pre">npx</span> skills add anthropics/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># CORE FRAMEWORKS ───────────────────────────────────</span>
+<span class="pre">npx</span> skills add obra/superpowers <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add mattpocock/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add forrestchang/andrej-karpathy-skills <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add OthmanAdi/planning-with-files <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># FRONTEND + UI ─────────────────────────────────────</span>
+<span class="pre">npx</span> skills add vercel-labs/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add vercel-labs/next-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add shadcn/ui <span class="opt">-g -a</span> claude-code -y
+<span class="pre">npx</span> skills add angular/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add onmax/nuxt-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add vuejs-ai/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add addyosmani/web-quality-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add ibelick/ui-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># DESIGN ────────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add pbakaus/impeccable <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add leonxlnx/taste-skill <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add emilkowalski/skill <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add figma/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># INFRASTRUCTURE / DEVOPS ──────────────────────────</span>
+<span class="pre">npx</span> skills add cloudflare/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add hashicorp/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add netlify/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add pulumi/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add itsmostafa/aws-agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add microsoft/azure-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># DATABASES ────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add supabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add neondatabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add clickhouse/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add tinybirdco/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add planetscale/database-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add get-convex/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add tursodatabase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add firebase/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># AI / LLM / RAG ───────────────────────────────────</span>
+<span class="pre">npx</span> skills add huggingface/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add google-gemini/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add veniceai/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add replicate/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add fal-ai-community/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add K-Dense-AI/scientific-agent-skills <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># MOBILE ───────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add expo/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add callstackincubator/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add flutter/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># SECURITY ─────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add trailofbits/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add mukul975/Anthropic-Cybersecurity-Skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add BehiSecc/VibeSec-Skill <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># OBSERVABILITY ────────────────────────────────────</span>
+<span class="pre">npx</span> skills add getsentry/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># PAYMENTS / AUTH / API ────────────────────────────</span>
+<span class="pre">npx</span> skills add stripe/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add better-auth/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add composiohq/skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add googleworkspace/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># TESTING + QA ─────────────────────────────────────</span>
+<span class="pre">npx</span> skills add currents-dev/playwright-best-practices-skill <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># SCRAPING ─────────────────────────────────────────</span>
+<span class="pre">npx</span> skills add firecrawl/cli <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add apify/agent-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add browserbase/skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># MARKETING (DEEP) ─────────────────────────────────</span>
+<span class="pre">npx</span> skills add coreyhaines31/marketingskills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add realkimbarrett/advertising-skills <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># PRODUCTIVITY ─────────────────────────────────────</span>
+<span class="pre">npx</span> skills add michalparkola/tapestry-skills-for-claude-code <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add deanpeters/Product-Manager-Skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add larksuite/cli <span class="opt">--all -g -a</span> claude-code -y
+
+<span class="cmt"># EDUCATION + RESEARCH ─────────────────────────────</span>
+<span class="pre">npx</span> skills add Imbad0202/academic-research-skills <span class="opt">--all -g -a</span> claude-code -y
+<span class="pre">npx</span> skills add wanshuiyin/Auto-claude-code-research-in-sleep <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># OPTIONAL: GLOBAL SEARCH ───────────────────────────</span>
+<span class="pre">npx</span> skills add vercel-labs/skills <span class="opt">--skill</span> find-skills <span class="opt">-g -a</span> claude-code -y
+
+<span class="cmt"># 🎉 Done. Restart Claude Code. /help shows all new skills.</span></pre>
+        </div>
+        <div class="copy-bar">
+          <div class="left">~50 repos · 500+ skills · 5min install · MAX power mode</div>
+          <button class="copy-btn" data-copy-target="cmd-mega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="0"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy MEGA
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab C: By Category -->
+      <div class="install-pane" id="pane-category" role="tabpanel">
+        <div style="padding:14px 16px;font-size:11px;color:var(--text-3);background:rgba(0,0,0,.4);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.1em">→ Click any category to copy its install bundle</div>
+        <div class="cat-grid" id="catGrid"></div>
+        <div class="copy-bar"><div class="left">15 categories · pick what you need · skip what you don't</div></div>
+      </div>
+    </div>
+
+    <!-- ──────────────── AUTO-INSTALL PROMPTS ──────────────── -->
+    <div class="section-head" style="margin-top:80px;margin-bottom:32px">
+      <div>
+        <div class="label">→ Hands-free</div>
+        <h2>Or just paste a prompt — <span class="accent">Claude does it for you</span></h2>
+      </div>
+      <p>Don't feel like copy-pasting? Drop one of these prompts into your Claude Code session. Claude runs the installs itself, reports failures, and tells you what's now available.</p>
+    </div>
+
+    <div class="prompts-grid" id="promptsGrid"></div>
+  </div>
+</section>
+
+<!-- ──────────────── WHY ──────────────── -->
+<section class="section" id="about" style="padding-top:24px">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="label">→ The case for skills</div>
+        <h2>What's a skill <span class="accent">/ why this matters</span></h2>
+      </div>
+      <p>Skills are the difference between Claude as a generic assistant and Claude as a specialist. They are tiny, composable knowledge bundles that make your agent dramatically smarter at specific tasks — without you needing to retype the same instructions every session.</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-cell">
+        <div class="num">[01]</div>
+        <h3>Knowledge bundles, on demand</h3>
+        <p>A skill is a folder with a SKILL.md file plus optional scripts. When Claude detects a relevant task, it loads only the skills it needs — saving tokens and keeping behavior tight. Think dependency injection for an agent's brain.</p>
+      </div>
+      <div class="why-cell">
+        <div class="num">[02]</div>
+        <h3>One source of truth, every project</h3>
+        <p>Install once globally with <code style="color:var(--cyan);font-size:11px">-g</code> and every Claude Code session can use them. Or scope to a single repo. Skills travel with the code, not your head.</p>
+      </div>
+      <div class="why-cell">
+        <div class="num">[03]</div>
+        <h3>Built for the long tail</h3>
+        <p>Generic chat is great for generic tasks. But shipping production code means knowing the 10,000 specific gotchas of React 19, Cloudflare D1, or Stripe Connect. Skills encode that expertise so you don't have to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────── SKILLS GRID ──────────────── -->
+<section class="section" id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="label">→ The full directory</div>
+        <h2>Browse <span class="accent">/ filter / copy</span></h2>
+      </div>
+      <p><span id="browseCount2">…</span> hand-curated skills across 15 categories. Each card includes the install command and a one-click copy button. Search by name, author, or keyword.</p>
+    </div>
+
+    <div class="filter-row">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" id="searchInput" placeholder="Search skills, authors, descriptions… try 'react' or 'sql'" autocomplete="off">
+        <span class="kbd">/</span>
+      </div>
+      <select class="sort-select" id="sortSelect" aria-label="sort">
+        <option value="featured">Sort: Featured first</option>
+        <option value="name">Sort: A → Z</option>
+        <option value="rating">Sort: Highest rated</option>
+        <option value="popular">Sort: Most installed</option>
+      </select>
+    </div>
+
+    <div class="cat-pills" id="catPills"></div>
+
+    <div class="skill-grid" id="skillGrid"></div>
+    <div class="empty" id="emptyState" style="display:none">
+      <h3>No skills match.</h3>
+      <p>Try clearing the filter or searching for something else.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────── CONTRIBUTE ──────────────── -->
+<section class="section" id="contribute" style="padding-top:24px">
+  <div class="wrap">
+    <div class="contribute-card">
+      <div class="contrib-bg"></div>
+      <div class="contrib-content">
+        <div class="label">→ Open directory</div>
+        <h2>Built a skill? <span class="accent">Add it to the index.</span></h2>
+        <p>This directory is community-maintained. Submitting takes 30 seconds — you don't need to clone the repo or write any code. Pick the path that fits.</p>
+
+        <div class="contrib-paths">
+          <a href="#" id="ctaIssue" class="contrib-path" target="_blank" rel="noopener">
+            <div class="cp-icon">⚡</div>
+            <div class="cp-body">
+              <h3>Quick · Open an issue</h3>
+              <p>Fill a short form. A maintainer adds it within ~24h. Best if you don't want to touch the codebase.</p>
+              <span class="cp-tag">~30s · no setup</span>
+            </div>
+            <div class="cp-arrow">→</div>
+          </a>
+
+          <a href="#" id="ctaPR" class="contrib-path" target="_blank" rel="noopener">
+            <div class="cp-icon">⚙</div>
+            <div class="cp-body">
+              <h3>Direct · Send a PR</h3>
+              <p>Add an entry to the <code>SKILLS</code> array in <code>index.html</code>. CI auto-validates the format. Merged on review.</p>
+              <span class="cp-tag">~3min · for contributors</span>
+            </div>
+            <div class="cp-arrow">→</div>
+          </a>
+
+          <a href="#" id="ctaDisc" class="contrib-path" target="_blank" rel="noopener">
+            <div class="cp-icon">💬</div>
+            <div class="cp-body">
+              <h3>Discuss · Ideas &amp; gaps</h3>
+              <p>Open a Discussion to flag missing categories, propose a feature, or point at skills that should be deprecated.</p>
+              <span class="cp-tag">async · public</span>
+            </div>
+            <div class="cp-arrow">→</div>
+          </a>
+        </div>
+
+        <div class="contrib-rules">
+          <strong>What we accept</strong>
+          <ul>
+            <li>Skills with a public source (GitHub repo, documented marketplace listing, or official Anthropic skill).</li>
+            <li>A working install command — either <code>npx skills add</code>, a built-in <code>/command</code>, or a clear <code>git clone</code> step.</li>
+            <li>A 1–2 sentence description that says what the skill does, not what category it's in.</li>
+            <li>An honest rating (1-5). Self-promotion is fine; lying about quality is not.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────── FOOTER ──────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-h">~/skills.lab</div>
+        <p style="font-size:13px;line-height:1.7;color:var(--text-2);max-width:380px">
+          A community-curated directory of Claude Code skills, ranked, deduplicated, and presented for fast discovery.
+          Not affiliated with Anthropic. Skills belong to their respective authors.
+        </p>
+      </div>
+      <div>
+        <div class="foot-h">Sources</div>
+        <ul class="foot-list">
+          <li><a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">anthropics/skills</a></li>
+          <li><a href="https://skills.sh" target="_blank" rel="noopener">skills.sh marketplace</a></li>
+          <li><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">obra/superpowers</a></li>
+          <li><a href="https://github.com/vercel-labs/agent-skills" target="_blank" rel="noopener">vercel-labs/agent-skills</a></li>
+          <li><a href="https://github.com/travisvn/awesome-claude-skills" target="_blank" rel="noopener">awesome-claude-skills</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Docs</div>
+        <ul class="foot-list">
+          <li><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Official skills docs</a></li>
+          <li><a href="https://platform.claude.com" target="_blank" rel="noopener">Claude API platform</a></li>
+          <li><a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener">Claude Code repo</a></li>
+          <li><a href="#install">Install commands</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Index stats</div>
+        <ul class="foot-list">
+          <li><span data-fill="total">…</span> curated skills</li>
+          <li><span data-fill="cats">15</span> categories</li>
+          <li><span data-fill="authors">…</span>+ unique authors</li>
+          <li><span data-fill="official">…</span> official Anthropic</li>
+          <li>Updated <span id="updatedDate">…</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>~/skills.lab · Built as a static page · No analytics, no tracking, no JS frameworks</div>
+      <div style="display:flex;gap:24px"><a href="#top" style="color:var(--cyan)">↑ Back to top</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     DATA + INTERACTIONS
+     ════════════════════════════════════════════════════════════ -->
+<script>
+"use strict";
+
+// ─── Site config ─────────────────────────────────────────
+// Set REPO_URL once. All "Submit a skill" / "Contribute" links derive from it.
+const REPO_URL = 'https://github.com/LukoPuko/claude-skills-lab';
+const ISSUE_NEW = REPO_URL + '/issues/new?template=add-skill.yml';
+const PR_NEW = REPO_URL + '/blob/main/CONTRIBUTING.md';
+
+// ─── Categories ──────────────────────────────────────────
+const C = {
+  doc       : { n:'Documents',     ic:'📄', col:'#00e5ff', desc:'Word, PDF, PPT, Excel, EPUB, OCR' },
+  frontend  : { n:'Frontend',      ic:'💻', col:'#7c3aed', desc:'React, Vue, Tailwind, design systems' },
+  devops    : { n:'DevOps',        ic:'⚙️',  col:'#ff9d00', desc:'Cloudflare, AWS, Terraform, CI/CD' },
+  security  : { n:'Security',      ic:'🛡️',  col:'#ff2d92', desc:'Audit, fuzzing, threat modeling' },
+  ai        : { n:'AI / LLM',      ic:'🤖', col:'#a855f7', desc:'Agents, RAG, prompt engineering' },
+  data      : { n:'Data',          ic:'📊', col:'#00ff9c', desc:'SQL, analytics, viz, scraping' },
+  mobile    : { n:'Mobile',        ic:'📱', col:'#00e5ff', desc:'iOS, Android, React Native, Expo' },
+  design    : { n:'Design',        ic:'🎨', col:'#ff2d92', desc:'Diagrams, SVG, brand, motion' },
+  marketing : { n:'Marketing',     ic:'📈', col:'#ff9d00', desc:'SEO, copy, CRO, ads, growth' },
+  productivity:{n:'Productivity',  ic:'🏢', col:'#7c3aed', desc:'PM, docs, workflow, knowledge' },
+  testing   : { n:'Testing',       ic:'🧪', col:'#00ff9c', desc:'Playwright, TDD, accessibility' },
+  tooling   : { n:'Dev Tooling',   ic:'🔧', col:'#00e5ff', desc:'Code review, debugging, git' },
+  scraping  : { n:'Web Scraping',  ic:'🌐', col:'#a855f7', desc:'Firecrawl, Browserbase, research' },
+  api       : { n:'APIs',          ic:'📡', col:'#ff9d00', desc:'MCP, integrations, OAuth' },
+  education : { n:'Education',     ic:'🎓', col:'#00ff9c', desc:'Translation, courses, science' },
+};
+
+// ─── The skills database ─────────────────────────────────
+// Format: {n=name, d=description, a=author, c=category, i=install, g=github, o=official, b=built-in,
+//          f=featured, s=stars/installs, r=rating}
+const SKILLS = [
+  // ════════════════ DOCUMENTS ════════════════
+  {n:'docx', d:'Create, read, edit Word documents with tracked changes, comments, tables of contents, headings, and find-and-replace. Powers Claude.ai\'s native Word features.', a:'anthropics', c:'doc', i:'npx skills add anthropics/skills/docx -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/docx', o:1, f:1, s:'82K installs', r:5},
+  {n:'pdf', d:'Extract text and tables from PDFs, merge/split, rotate, fill forms, watermark, OCR scanned PDFs. Layout-preserving generation.', a:'anthropics', c:'doc', i:'npx skills add anthropics/skills/pdf -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/pdf', o:1, f:1, s:'98K installs', r:5},
+  {n:'pptx', d:'Create, edit, combine, or split PowerPoint presentations including templates, layouts, speaker notes, and comments. Programmatic slide generation.', a:'anthropics', c:'doc', i:'npx skills add anthropics/skills/pptx -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/pptx', o:1, f:1, s:'95K installs', r:5},
+  {n:'xlsx', d:'Create, read, edit Excel/CSV/TSV spreadsheets with formulas, formatting, charting, and cleaning messy tabular data. Reliable for analytics workflows.', a:'anthropics', c:'doc', i:'npx skills add anthropics/skills/xlsx -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/xlsx', o:1, f:1, s:'73K installs', r:5},
+  {n:'doc-coauthoring', d:'Three-stage workflow (context-gathering, refinement, reader-testing) for co-authoring docs, proposals, technical specs, and decision docs.', a:'anthropics', c:'doc', i:'npx skills add anthropics/skills/doc-coauthoring -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring', o:1, s:'39K installs', r:4},
+  {n:'internal-comms', d:'Write 3P updates, newsletters, FAQs, status reports, leadership and project updates, incident reports — in company-preferred formats.', a:'anthropics', c:'doc', i:'npx skills add anthropics/skills/internal-comms -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/internal-comms', o:1, r:4},
+  {n:'markdown-to-epub', d:'Convert Claude conversations and markdown files into professional EPUB ebooks with proper TOC and chapter navigation.', a:'smerchek', c:'doc', i:'git clone https://github.com/smerchek/claude-epub-skill', g:'https://github.com/smerchek/claude-epub-skill', r:4},
+  {n:'claude-office-skills', d:'Office document handling for Word, Excel, PowerPoint with extra formatting helpers and conversion utilities.', a:'tfriedel', c:'doc', i:'git clone https://github.com/tfriedel/claude-office-skills', g:'https://github.com/tfriedel/claude-office-skills', s:'232★', r:3},
+  {n:'frontend-slides', d:'Create animation-rich HTML presentations from scratch or by converting PowerPoint files into web-native decks.', a:'zarazhangrui', c:'doc', i:'git clone https://github.com/zarazhangrui/frontend-slides', g:'https://github.com/zarazhangrui/frontend-slides', s:'519★', r:4},
+  {n:'guizang-ppt', d:'Web-quality HTML presentation creation with motion, gradients, and responsive layouts that beat traditional PowerPoint.', a:'op7418', c:'doc', i:'git clone https://github.com/op7418/guizang-ppt-skill', g:'https://github.com/op7418/guizang-ppt-skill', s:'2.9K★', r:4},
+  {n:'master-claude-for-legal', d:'NDA triage, multi-party version diff, citation verifier, meeting brief — domain-specific workflow for legal docs.', a:'sboghossian', c:'doc', i:'git clone https://github.com/sboghossian/master-claude-for-legal', g:'https://github.com/sboghossian/master-claude-for-legal', r:3},
+
+  // ════════════════ FRONTEND ════════════════
+  {n:'frontend-design', d:'Build distinctive, production-grade frontend with intentional typography, color, motion, and spatial composition. Beats generic AI aesthetics every time.', a:'anthropics', c:'frontend', i:'npx skills add anthropics/skills/frontend-design -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/frontend-design', o:1, f:1, s:'389K installs', r:5},
+  {n:'web-design-guidelines', d:'Vercel\'s 100+ rules covering accessibility, performance, UX hierarchy, ARIA, focus states, keyboard nav, WCAG. Linter for what ESLint misses.', a:'vercel-labs', c:'frontend', i:'npx skills add vercel-labs/agent-skills/web-design-guidelines -g -a claude-code', g:'https://github.com/vercel-labs/agent-skills', f:1, s:'307K installs', r:5},
+  {n:'react-best-practices', d:'69 prioritized React performance rules covering waterfalls, bundle size, re-renders, advanced patterns. Catches high-impact issues first.', a:'vercel-labs', c:'frontend', i:'npx skills add vercel-labs/agent-skills/react-best-practices -g -a claude-code', g:'https://github.com/vercel-labs/agent-skills', f:1, s:'385K installs', r:5},
+  {n:'composition-patterns', d:'Replaces boolean prop proliferation with compound components, render props, and context patterns for scalable component APIs.', a:'vercel-labs', c:'frontend', i:'npx skills add vercel-labs/agent-skills/composition-patterns -g -a claude-code', g:'https://github.com/vercel-labs/agent-skills', s:'166K installs', r:5},
+  {n:'next-best-practices', d:'File conventions, RSC boundaries, data patterns, async APIs, metadata, app-router idioms — all the modern Next.js gotchas.', a:'vercel-labs', c:'frontend', i:'npx skills add vercel-labs/next-skills/next-best-practices -g -a claude-code', g:'https://github.com/vercel-labs/next-skills', r:5},
+  {n:'next-cache-components', d:'PPR, use cache directive, cacheLife, cacheTag, revalidateTag — the new caching primitives explained for production use.', a:'vercel-labs', c:'frontend', i:'npx skills add vercel-labs/next-skills/next-cache-components -g -a claude-code', g:'https://github.com/vercel-labs/next-skills', r:5},
+  {n:'react-view-transitions', d:'Smooth route animations using React\'s View Transition API and Next.js — adds polish without heavy animation libraries.', a:'vercel-labs', c:'frontend', i:'npx skills add vercel-labs/agent-skills/react-view-transitions -g -a claude-code', g:'https://github.com/vercel-labs/agent-skills', r:4},
+  {n:'shadcn/ui', d:'Official shadcn/ui component context with pattern enforcement, customization rules, and Tailwind integration. The standard for v0-style UIs.', a:'shadcn', c:'frontend', i:'npx skills add shadcn/ui -g -a claude-code', g:'https://ui.shadcn.com/docs/skills', f:1, s:'132K installs', r:5},
+  {n:'angular-developer', d:'Angular code generation: components, services, signals, reactivity, route configuration. Supports v17+ idioms.', a:'angular', c:'frontend', i:'npx skills add angular/skills/angular-developer -g -a claude-code', g:'https://github.com/angular/skills', r:4},
+  {n:'web-quality-skills', d:'Six skills covering performance, Core Web Vitals (LCP/INP/CLS), accessibility, SEO, and audits. Encodes Chrome engineering expertise.', a:'addyosmani', c:'frontend', i:'npx skills add addyosmani/web-quality-skills --all -g -a claude-code', g:'https://github.com/addyosmani/web-quality-skills', s:'250★', r:5},
+  {n:'web-artifacts-builder', d:'Build elaborate multi-component HTML artifacts using React 18, TypeScript, Vite, Tailwind CSS, and shadcn/ui — bundled into a single HTML file.', a:'anthropics', c:'frontend', i:'npx skills add anthropics/skills/web-artifacts-builder -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder', o:1, s:'42K installs', r:5},
+  {n:'cc-design', d:'High-fidelity HTML design system with sharp aesthetic principles. Outputs that compete with hand-crafted designer work.', a:'ZeroZ-lab', c:'frontend', i:'git clone https://github.com/ZeroZ-lab/cc-design', g:'https://github.com/ZeroZ-lab/cc-design', s:'748★', r:4},
+  {n:'ui-skills', d:'Final-pass interface polishing — typography, contrast, alignment, spacing — all the details designers obsess about.', a:'ibelick', c:'frontend', i:'npx skills add ibelick/ui-skills --all -g -a claude-code', g:'https://github.com/ibelick/ui-skills', s:'629★', r:4},
+  {n:'nuxt-skills', d:'Vue 3, Nuxt, NuxtHub workflows — including Cloudflare Workers deployment, modules, and SSR best practices.', a:'onmax', c:'frontend', i:'npx skills add onmax/nuxt-skills --all -g -a claude-code', g:'https://github.com/onmax/nuxt-skills', s:'475★', r:4},
+  {n:'vue-skills', d:'Vue 3 development: composition API, reactivity, performance patterns, Pinia state management.', a:'vuejs-ai', c:'frontend', i:'npx skills add vuejs-ai/skills --all -g -a claude-code', g:'https://github.com/vuejs-ai/skills', s:'799★', r:4},
+  {n:'gsap-skills', d:'GreenSock animation patterns: timelines, ScrollTrigger, splitText, MotionPath. Production-grade motion design.', a:'greensock', c:'frontend', i:'npx skills add greensock/gsap-skills --all -g -a claude-code', g:'https://github.com/greensock/gsap-skills', s:'1.5K★', r:4},
+  {n:'threejs-skills', d:'Three.js 3D scene setup, lighting, materials, post-processing, and React Three Fiber integration.', a:'CloudAI-X', c:'frontend', i:'npx skills add CloudAI-X/threejs-skills --all -g -a claude-code', g:'https://github.com/CloudAI-X/threejs-skills', s:'904★', r:4},
+
+  // ════════════════ DEVOPS ════════════════
+  {n:'wrangler', d:'Deploy and manage Cloudflare Workers, KV, R2, D1, Vectorize. Full toolkit for the entire Cloudflare developer platform.', a:'cloudflare', c:'devops', i:'npx skills add cloudflare/agent-skills/wrangler -g -a claude-code', g:'https://github.com/cloudflare/agent-skills', f:1, r:5},
+  {n:'workers-best-practices', d:'Code review against Workers best practices: cold-start optimization, bindings hygiene, CPU/memory budgets.', a:'cloudflare', c:'devops', i:'npx skills add cloudflare/agent-skills/workers-best-practices -g -a claude-code', g:'https://github.com/cloudflare/agent-skills', r:5},
+  {n:'durable-objects', d:'Stateful coordination at the edge with RPC, SQLite storage, WebSockets, alarms. The right way to build stateful Workers.', a:'cloudflare', c:'devops', i:'npx skills add cloudflare/agent-skills/durable-objects -g -a claude-code', g:'https://github.com/cloudflare/agent-skills', r:5},
+  {n:'agents-sdk', d:'Build stateful AI agents on Cloudflare Workers with scheduling, RPC, MCP servers, and persistent state.', a:'cloudflare', c:'devops', i:'npx skills add cloudflare/agent-skills/agents-sdk -g -a claude-code', g:'https://github.com/cloudflare/agent-skills', r:5},
+  {n:'terraform-style-guide', d:'HashiCorp\'s official HCL style conventions plus formatting, naming, and module organization rules.', a:'hashicorp', c:'devops', i:'npx skills add hashicorp/agent-skills/terraform-style-guide -g -a claude-code', g:'https://github.com/hashicorp/agent-skills', r:5},
+  {n:'terraform-stacks', d:'Multi-environment, multi-region infrastructure orchestration with the new Stacks primitive — plus migration patterns from monolithic configs.', a:'hashicorp', c:'devops', i:'npx skills add hashicorp/agent-skills/terraform-stacks -g -a claude-code', g:'https://github.com/hashicorp/agent-skills', r:5},
+  {n:'terraform-test', d:'Built-in testing framework with .tftest.hcl files, mock providers, and property-based testing for IaC.', a:'hashicorp', c:'devops', i:'npx skills add hashicorp/agent-skills/terraform-test -g -a claude-code', g:'https://github.com/hashicorp/agent-skills', r:4},
+  {n:'netlify-functions', d:'Build serverless API endpoints and background tasks. Runtime configuration, environment variables, scheduled functions.', a:'netlify', c:'devops', i:'npx skills add netlify/agent-skills/netlify-functions -g -a claude-code', g:'https://github.com/netlify/agent-skills', r:4},
+  {n:'netlify-edge-functions', d:'Low-latency edge middleware with geolocation, A/B testing, request transformation. Deno runtime.', a:'netlify', c:'devops', i:'npx skills add netlify/agent-skills/netlify-edge-functions -g -a claude-code', g:'https://github.com/netlify/agent-skills', r:4},
+  {n:'aws-agent-skills', d:'18 AWS service skills: Lambda, DynamoDB, S3, CDK, IAM. Production patterns and cost optimization.', a:'itsmostafa', c:'devops', i:'npx skills add itsmostafa/aws-agent-skills --all -g -a claude-code', g:'https://github.com/itsmostafa/aws-agent-skills', s:'977★', r:4},
+  {n:'aws-skills', d:'AWS CDK best practices, well-architected framework, cost optimization MCP servers. Companion to AWS console workflows.', a:'zxkane', c:'devops', i:'git clone https://github.com/zxkane/aws-skills', g:'https://github.com/zxkane/aws-skills', r:4},
+  {n:'azure-foundry', d:'Microsoft Foundry AI: agents, knowledge bases, evaluations, and enterprise integration patterns. Most-installed Azure skill.', a:'microsoft', c:'devops', i:'npx skills add microsoft/azure-skills/microsoft-foundry -g -a claude-code', g:'https://github.com/microsoft/skills', f:1, s:'302K installs', r:5},
+  {n:'cloud-solution-architect', d:'Design well-architected Azure cloud systems with proper security, reliability, performance, and cost optimization.', a:'microsoft', c:'devops', i:'npx skills add microsoft/skills/cloud-solution-architect -g -a claude-code', g:'https://github.com/microsoft/skills', s:'138K installs', r:5},
+  {n:'pulumi-typescript', d:'Pulumi IaC in TypeScript — resource composition, ESC secrets management with OIDC, dependency safety.', a:'pulumi', c:'devops', i:'npx skills add pulumi/agent-skills/pulumi-typescript -g -a claude-code', g:'https://github.com/pulumi/agent-skills', r:4},
+  {n:'kubernetes-operations', d:'Deployments, Helm charts, HPA, troubleshooting. Production cluster security hardening with security contexts and resource limits.', a:'rohitg00', c:'devops', i:'npx skills add rohitg00/awesome-claude-code-toolkit/kubernetes-operations -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+  {n:'docker-best-practices', d:'Multi-stage builds, compose, image optimization, layer caching, security scanning. Production-grade container patterns.', a:'rohitg00', c:'devops', i:'npx skills add rohitg00/awesome-claude-code-toolkit/docker-best-practices -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+  {n:'sentry-sdk-setup', d:'Set up Sentry for any language or framework. Auto-detects stack, configures sourcemaps, instruments errors and traces.', a:'getsentry', c:'devops', i:'npx skills add getsentry/agent-skills/sentry-sdk-setup -g -a claude-code', g:'https://github.com/getsentry/sentry-docs', r:5},
+  {n:'devops-engineer', d:'CI/CD pipelines, container management, deployment strategies, multi-cloud IaC. Generic devops toolkit.', a:'jeffallan', c:'devops', i:'git clone https://github.com/jeffallan/claude-skills', g:'https://github.com/jeffallan/claude-skills', s:'1.5K★', r:4},
+
+  // ════════════════ SECURITY ════════════════
+  {n:'security-review', d:'Security review of pending changes covering secrets management, SQL injection, XSS, input validation, and OWASP top 10. Built into Claude Code.', a:'anthropics', c:'security', i:'/security-review', g:'https://github.com/anthropics/claude-code', o:1, b:1, f:1, r:5},
+  {n:'static-analysis', d:'Trail of Bits skill for CodeQL, Semgrep, SARIF orchestration. Encodes the workflows ToB uses for professional audits.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/static-analysis -g -a claude-code', g:'https://github.com/trailofbits/skills', f:1, r:5},
+  {n:'semgrep-rule-creator', d:'Create and refine Semgrep rules from natural-language descriptions. Generates valid YAML, validates against test corpora.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/semgrep-rule-creator -g -a claude-code', g:'https://github.com/trailofbits/skills', r:5},
+  {n:'building-secure-contracts', d:'Smart contract security toolkit for 6 blockchains with vulnerability scanners, invariant testing, formal verification hints.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/building-secure-contracts -g -a claude-code', g:'https://github.com/trailofbits/skills', r:5},
+  {n:'variant-analysis', d:'Find similar vulnerabilities via pattern analysis — once you patch one, this skill helps you find every other instance.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/variant-analysis -g -a claude-code', g:'https://github.com/trailofbits/skills', r:5},
+  {n:'insecure-defaults', d:'Detect hardcoded secrets, default credentials, weak crypto choices, missing TLS, and other dangerous defaults across the stack.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/insecure-defaults -g -a claude-code', g:'https://github.com/trailofbits/skills', r:5},
+  {n:'constant-time-analysis', d:'Detect timing side-channels in cryptographic code. Critical for review of HMAC comparisons, JWT validation, password checks.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/constant-time-analysis -g -a claude-code', g:'https://github.com/trailofbits/skills', r:5},
+  {n:'differential-review', d:'Security-focused diff review with git history awareness — flags risky regressions, removed validations, and sneaky reverts.', a:'trailofbits', c:'security', i:'npx skills add trailofbits/skills/differential-review -g -a claude-code', g:'https://github.com/trailofbits/skills', r:5},
+  {n:'ffuf-web-fuzzing', d:'Expert guidance for ffuf web fuzzing during pentests — authenticated fuzzing, auto-calibration, recursive discovery.', a:'jthack', c:'security', i:'git clone https://github.com/jthack/ffuf_claude_skill', g:'https://github.com/jthack/ffuf_claude_skill', r:5},
+  {n:'threat-hunting-with-sigma', d:'Use Sigma detection rules to hunt for threats in security logs. Auto-converts rules to your SIEM\'s query language.', a:'jthack', c:'security', i:'git clone https://github.com/jthack/threat-hunting-with-sigma-rules-skill', g:'https://github.com/jthack/threat-hunting-with-sigma-rules-skill', r:5},
+  {n:'cybersecurity-skills', d:'753+ cybersecurity skills covering vuln research, exploit dev, malware analysis, network security, and red team workflows.', a:'mukul975', c:'security', i:'git clone https://github.com/mukul975/Anthropic-Cybersecurity-Skills', g:'https://github.com/mukul975/Anthropic-Cybersecurity-Skills', s:'3.9K★', r:5},
+  {n:'shannon', d:'Autonomous AI pentester executing 50+ real exploits across XBOW categories. 96.15% exploit success rate, runs in Docker with auth gates.', a:'unicodeveloper', c:'security', i:'npx skills add unicodeveloper/shannon -g -a claude-code', g:'https://github.com/unicodeveloper/shannon', f:1, r:5},
+  {n:'snyk-fix', d:'Automated vulnerability remediation (SAST + dependency) with seven-phase workflow including validation and PR creation.', a:'snyk', c:'security', i:'git clone https://github.com/snyk/studio-recipes', g:'https://github.com/snyk/studio-recipes', r:4},
+  {n:'vibesec-skill', d:'Secure code writing assistant — proactively flags dangerous patterns as you generate, not just after the fact.', a:'BehiSecc', c:'security', i:'git clone https://github.com/BehiSecc/VibeSec-Skill', g:'https://github.com/BehiSecc/VibeSec-Skill', s:'496★', r:4},
+  {n:'threat-modeling', d:'STRIDE-based threat modeling skill that walks you through identifying assets, trust boundaries, and attack vectors.', a:'fr33d3m0n', c:'security', i:'git clone https://github.com/fr33d3m0n/skill-threat-modeling', g:'https://github.com/fr33d3m0n/skill-threat-modeling', r:4},
+  {n:'computer-forensics', d:'Digital forensics analysis: artifacts, timeline reconstruction, deletion recovery, metadata extraction. DFIR-grade workflows.', a:'mhattingpete', c:'security', i:'git clone https://github.com/mhattingpete/claude-skills-marketplace', g:'https://github.com/mhattingpete/claude-skills-marketplace', r:4},
+  {n:'android-reverse-engineering', d:'Android app analysis — APK decompilation, manifest review, intent fuzzing, and detection of malicious patterns.', a:'SimoneAvogadro', c:'security', i:'git clone https://github.com/SimoneAvogadro/android-reverse-engineering-skill', g:'https://github.com/SimoneAvogadro/android-reverse-engineering-skill', s:'4.7K★', r:4},
+
+  // ════════════════ AI / LLM ════════════════
+  {n:'claude-api', d:'Build, debug, and optimize Anthropic SDK apps. Covers prompt caching, tool use, streaming, batches, structured outputs, model migration.', a:'anthropics', c:'ai', i:'npx skills add anthropics/skills/claude-api -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/claude-api', o:1, f:1, r:5},
+  {n:'skill-creator', d:'Create new skills, modify and improve existing skills, and measure performance with evals, benchmarks, and description optimization.', a:'anthropics', c:'ai', i:'npx skills add anthropics/skills/skill-creator -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/skill-creator', o:1, f:1, s:'195K installs', r:5},
+  {n:'mcp-builder', d:'Build high-quality MCP servers in Python (FastMCP) or Node/TypeScript (MCP SDK). Research-backed implementation, review, and eval phases.', a:'anthropics', c:'ai', i:'npx skills add anthropics/skills/mcp-builder -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/mcp-builder', o:1, s:'51K installs', r:5},
+  {n:'superpowers', d:'20+ battle-tested skills: TDD, brainstorming, writing-plans, executing-plans, parallel agents, debugging, code review. The most-installed agentic framework.', a:'obra', c:'ai', i:'npx skills add obra/superpowers --all -g -a claude-code', g:'https://github.com/obra/superpowers', f:1, s:'174K★', r:5},
+  {n:'gemini-api-dev', d:'Develop Gemini-powered apps with the Google Gen AI SDK — multimodal inputs, tool calling, streaming, function calls.', a:'google-gemini', c:'ai', i:'npx skills add google-gemini/skills/gemini-api-dev -g -a claude-code', g:'https://github.com/google-gemini/gemini-skills', s:'2K★', r:4},
+  {n:'huggingface-model-trainer', d:'Train models with TRL: SFT, DPO, GRPO. GGUF conversion, PEFT, and full HF ecosystem integration.', a:'huggingface', c:'ai', i:'npx skills add huggingface/skills/hugging-face-model-trainer -g -a claude-code', g:'https://github.com/huggingface/skills', s:'10.4K★', r:5},
+  {n:'transformers.js', d:'Run ML models directly in the browser with Transformers.js — embeddings, classification, generation, all client-side.', a:'huggingface', c:'ai', i:'npx skills add huggingface/skills/transformers.js -g -a claude-code', g:'https://github.com/huggingface/skills', r:4},
+  {n:'replicate', d:'Discover, compare, and run AI models via Replicate. Programmatic access to Stable Diffusion, Flux, audio, and 1000+ models.', a:'replicate', c:'ai', i:'npx skills add replicate/skills/replicate -g -a claude-code', g:'https://github.com/replicate/skills', r:4},
+  {n:'venice-chat', d:'Chat completions on Venice.ai with multimodal inputs, tools, streaming. Privacy-first, uncensored alternative.', a:'veniceai', c:'ai', i:'git clone https://github.com/veniceai/skills', g:'https://github.com/veniceai/skills', r:4},
+  {n:'supermemory', d:'Memory and context engine that extracts and tracks facts about users over time. Tops LongMemEval, LoCoMo, ConvoMem benchmarks.', a:'supermemoryai', c:'ai', i:'git clone https://github.com/supermemoryai/supermemory', g:'https://github.com/supermemoryai/supermemory', r:5},
+  {n:'composio', d:'Connect AI agents to 1000+ apps with typed action schemas and OAuth lifecycle management. The standard for agent integrations.', a:'composiohq', c:'ai', i:'npx skills add composiohq/skills/composio -g -a claude-code', g:'https://github.com/ComposioHQ/awesome-claude-skills', f:1, r:5},
+  {n:'andrej-karpathy-skills', d:'LLM coding pitfalls reference — encodes the wisdom from Karpathy\'s talks and blog posts about how LLMs actually fail.', a:'forrestchang', c:'ai', i:'git clone https://github.com/forrestchang/andrej-karpathy-skills', g:'https://github.com/forrestchang/andrej-karpathy-skills', s:'101K★', r:5},
+  {n:'scientific-agent-skills', d:'Research, science, and finance skills for working with specialized scientific libraries and databases.', a:'K-Dense-AI', c:'ai', i:'git clone https://github.com/K-Dense-AI/scientific-agent-skills', g:'https://github.com/K-Dense-AI/scientific-agent-skills', s:'18.4K★', r:5},
+  {n:'loki-mode', d:'Multi-agent autonomous startup system orchestrating 37 AI agents — for ambitious users running their own AI dev team.', a:'asklokesh', c:'ai', i:'git clone https://github.com/asklokesh/claudeskill-loki-mode', g:'https://github.com/asklokesh/claudeskill-loki-mode', r:4},
+  {n:'second-brain-skills', d:'Personal knowledge management system with cross-conversation memory, fact extraction, and structured retrieval.', a:'coleam00', c:'ai', i:'git clone https://github.com/coleam00/second-brain-skills', g:'https://github.com/coleam00/second-brain-skills', s:'661★', r:4},
+  {n:'valyu', d:'Access 36+ specialized data sources (SEC, PubMed, ChEMBL, FRED, patents, clinical trials). Scores 79% on FreshQA vs Google\'s 39%.', a:'valyu', c:'ai', i:'git clone https://github.com/valyu-network/valyu-skill', r:5},
+
+  // ════════════════ DATA ════════════════
+  {n:'supabase-postgres', d:'Postgres patterns for Supabase: schema design, RLS policies, indexing strategies, query performance, edge functions.', a:'supabase', c:'data', i:'npx skills add supabase/agent-skills/postgres-best-practices -g -a claude-code', g:'https://github.com/supabase/agent-skills', f:1, s:'154K installs', r:5},
+  {n:'neon-postgres', d:'Neon-specific patterns: branching workflow, serverless driver, connection pooling, point-in-time restore.', a:'neondatabase', c:'data', i:'npx skills add neondatabase/agent-skills/neon-postgres -g -a claude-code', g:'https://github.com/neondatabase/agent-skills', r:5},
+  {n:'clickhouse-best-practices', d:'ClickHouse schema design, materialized views, projections, partitioning. The right way to build analytics warehouses.', a:'clickhouse', c:'data', i:'npx skills add clickhouse/agent-skills/clickhouse-best-practices -g -a claude-code', g:'https://github.com/clickhouse/agent-skills', r:5},
+  {n:'tinybird-best-practices', d:'Datasources, pipes, endpoints, SQL guidelines for Tinybird. Real-time analytics at scale with proper deployments.', a:'tinybirdco', c:'data', i:'npx skills add tinybirdco/agent-skills/tinybird-best-practices -g -a claude-code', g:'https://github.com/tinybirdco/agent-skills', r:4},
+  {n:'firebase-firestore', d:'Firestore standard patterns: queries, security rules, composite indexes, offline persistence, transactions.', a:'firebase', c:'data', i:'npx skills add firebase/agent-skills/firebase-firestore-standard -g -a claude-code', g:'https://github.com/firebase/agent-skills', r:4},
+  {n:'convex-quickstart', d:'Convex schema, queries, mutations, real-time reactivity patterns. Auth integration with Clerk, Auth0, custom JWT.', a:'get-convex', c:'data', i:'npx skills add get-convex/agent-skills/convex-quickstart -g -a claude-code', g:'https://github.com/get-convex/agent-skills', r:5},
+  {n:'planetscale-postgres', d:'PlanetScale Postgres: schema design, branching, Vitess-backed scaling, query optimization, index analysis.', a:'planetscale', c:'data', i:'npx skills add planetscale/database-skills/planetscale-postgres -g -a claude-code', g:'https://github.com/planetscale/database-skills', r:5},
+  {n:'turso-db', d:'Turso (libSQL): edge-replicated SQLite. Setup, queries, replication strategies, embedded replicas.', a:'tursodatabase', c:'data', i:'npx skills add tursodatabase/agent-skills/turso-db -g -a claude-code', g:'https://github.com/tursodatabase/agent-skills', r:4},
+  {n:'duckdb-query', d:'DuckDB query patterns for analytical workloads, Parquet/CSV reads, in-process analytics that beats pandas.', a:'duckdb', c:'data', i:'npx skills add duckdb/duckdb-skills/duckdb-query -g -a claude-code', g:'https://github.com/duckdb/duckdb-skills', r:5},
+  {n:'claude-d3js', d:'Generate interactive D3.js visualizations from data — handles scales, axes, transitions, and accessibility.', a:'chrisvoncsefalvay', c:'data', i:'git clone https://github.com/chrisvoncsefalvay/claude-d3js-skill', g:'https://github.com/chrisvoncsefalvay/claude-d3js-skill', r:4},
+  {n:'csv-data-summarizer', d:'Auto-analyzes CSV files with insights, descriptive stats, anomaly detection, and one-shot visualizations.', a:'coffeefuelbump', c:'data', i:'git clone https://github.com/coffeefuelbump/csv-data-summarizer-claude-skill', g:'https://github.com/coffeefuelbump/csv-data-summarizer-claude-skill', s:'206★', r:4},
+  {n:'database-optimization', d:'Query planning, indexing, N+1 prevention, connection pooling, EXPLAIN ANALYZE interpretation across major SQL databases.', a:'rohitg00', c:'data', i:'npx skills add rohitg00/awesome-claude-code-toolkit/database-optimization -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+  {n:'redis-patterns', d:'Caching, rate limiting, pub/sub, streams, Lua scripts, sorted sets. Production Redis usage with proper invalidation.', a:'rohitg00', c:'data', i:'npx skills add rohitg00/awesome-claude-code-toolkit/redis-patterns -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+  {n:'data-engineering', d:'ETL pipelines, Spark, star schema, data quality checks, slowly changing dimensions, idempotent loads.', a:'rohitg00', c:'data', i:'npx skills add rohitg00/awesome-claude-code-toolkit/data-engineering -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+
+  // ════════════════ MOBILE ════════════════
+  {n:'building-native-ui', d:'Expo native UI components: lists, modals, tabs, bottom sheets, haptics. Production-grade mobile patterns.', a:'expo', c:'mobile', i:'npx skills add expo/skills/building-native-ui -g -a claude-code', g:'https://github.com/expo/skills', f:1, s:'749★', r:5},
+  {n:'native-data-fetching', d:'Data fetching for native apps: offline caching, background refresh, sync, optimistic updates, cache invalidation.', a:'expo', c:'mobile', i:'npx skills add expo/skills/native-data-fetching -g -a claude-code', g:'https://github.com/expo/skills', r:5},
+  {n:'expo-tailwind-setup', d:'NativeWind v5 and Tailwind v4 setup in Expo with correct native class handling, dark mode, and design tokens.', a:'expo', c:'mobile', i:'npx skills add expo/skills/expo-tailwind-setup -g -a claude-code', g:'https://github.com/expo/skills', r:5},
+  {n:'upgrading-expo', d:'Expo SDK upgrade guide with breaking changes, dependency migration, expo-doctor checks, and rollback strategies.', a:'expo', c:'mobile', i:'npx skills add expo/skills/upgrading-expo -g -a claude-code', g:'https://github.com/expo/skills', r:4},
+  {n:'react-native-best-practices', d:'CallStack\'s performance optimization patterns for React Native — Hermes, new architecture, list virtualization.', a:'callstackincubator', c:'mobile', i:'npx skills add callstackincubator/agent-skills/react-native-best-practices -g -a claude-code', g:'https://github.com/callstackincubator/agent-skills', s:'328★', r:5},
+  {n:'react-native-guidelines', d:'16 rules across 7 sections — React Native best practices optimized for AI agents to follow consistently.', a:'vercel-labs', c:'mobile', i:'npx skills add vercel-labs/agent-skills/react-native-guidelines -g -a claude-code', g:'https://github.com/vercel-labs/agent-skills', r:4},
+  {n:'ios-simulator', d:'iOS app building, navigation, and testing through automation. Screenshot capture, accessibility audits, UI inspection.', a:'conorluddy', c:'mobile', i:'git clone https://github.com/conorluddy/ios-simulator-skill', g:'https://github.com/conorluddy/ios-simulator-skill', s:'440★', r:4},
+  {n:'swiftui-agent-skill', d:'SwiftUI development guidance from Paul Hudson — modern patterns, concurrency, navigation, accessibility.', a:'twostraws', c:'mobile', i:'git clone https://github.com/twostraws/SwiftUI-Agent-Skill', g:'https://github.com/twostraws/SwiftUI-Agent-Skill', s:'2.7K★', r:5},
+  {n:'swiftui-design-skill', d:'SwiftUI frontend design with anti-slop principles — five-dimension review framework for visual quality.', a:'wholiver', c:'mobile', i:'git clone https://github.com/wholiver/swiftui-design-skill', g:'https://github.com/wholiver/swiftui-design-skill', r:4},
+  {n:'flutter-skills', d:'Flutter development skills — widgets, state management (Riverpod, Bloc), platform channels, performance profiling.', a:'flutter', c:'mobile', i:'npx skills add flutter/skills --all -g -a claude-code', g:'https://github.com/flutter/skills', s:'1.9K★', r:4},
+  {n:'xcode-build-optimization', d:'Xcode build time optimization — caching, parallelization, module structure, link-time analysis.', a:'AvdLee', c:'mobile', i:'git clone https://github.com/AvdLee/Xcode-Build-Optimization-Agent-Skill', g:'https://github.com/AvdLee/Xcode-Build-Optimization-Agent-Skill', s:'904★', r:4},
+  {n:'apple-hig-designer', d:'Apple Human Interface Guidelines compliance — spacing, typography, accessibility, native idioms across iOS, macOS, watchOS.', a:'axiaoge2', c:'mobile', i:'git clone https://github.com/axiaoge2/Apple-Hig-Designer', g:'https://github.com/axiaoge2/Apple-Hig-Designer', r:4},
+
+  // ════════════════ DESIGN ════════════════
+  {n:'canvas-design', d:'Produce museum/magazine-quality static visual art (PNG and PDF posters) by first developing a visual philosophy.', a:'anthropics', c:'design', i:'npx skills add anthropics/skills/canvas-design -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/canvas-design', o:1, s:'51K installs', r:5},
+  {n:'algorithmic-art', d:'Generate original computational/generative art with p5.js using seeded randomness and interactive parameter controls.', a:'anthropics', c:'design', i:'npx skills add anthropics/skills/algorithmic-art -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/algorithmic-art', o:1, s:'39K installs', r:5},
+  {n:'brand-guidelines', d:'Apply Anthropic\'s official brand colors and typography to any artifact — including stylesheets, decks, and exports.', a:'anthropics', c:'design', i:'npx skills add anthropics/skills/brand-guidelines -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/brand-guidelines', o:1, s:'37K installs', r:4},
+  {n:'theme-factory', d:'Apply consistent professional styling — curated color palettes and font pairings — to slides, docs, reports, HTML.', a:'anthropics', c:'design', i:'npx skills add anthropics/skills/theme-factory -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/theme-factory', o:1, s:'39K installs', r:4},
+  {n:'slack-gif-creator', d:'Create animated GIFs optimized for Slack with dimension constraints, validators, and animation primitives.', a:'anthropics', c:'design', i:'npx skills add anthropics/skills/slack-gif-creator -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator', o:1, r:4},
+  {n:'impeccable-polish', d:'Final-pass visual refinement — tighten spacing, sharpen type, clean edges. Part of the impeccable suite (10 skills).', a:'pbakaus', c:'design', i:'npx skills add pbakaus/impeccable --all -g -a claude-code', g:'https://github.com/pbakaus/impeccable', f:1, s:'85K installs', r:5},
+  {n:'taste-skill', d:'Opinionated frontend design taste with explicit reasoning — high-end visual, minimalist, brutalist, editorial styles.', a:'leonxlnx', c:'design', i:'npx skills add leonxlnx/taste-skill --all -g -a claude-code', g:'https://github.com/Leonxlnx/taste-skill', s:'6.9K★', r:5},
+  {n:'emil-design-eng', d:'Emil Kowalski\'s design engineering principles: motion, detail, craftsmanship. The fundamentals behind award-winning UIs.', a:'emilkowalski', c:'design', i:'npx skills add emilkowalski/skill --all -g -a claude-code', g:'https://github.com/emilkowalski/skill', s:'39K installs', r:5},
+  {n:'extract-design-system', d:'Extract tokens, components, patterns from an existing codebase — the reverse-engineer-your-DS skill.', a:'arvindrk', c:'design', i:'git clone https://github.com/arvindrk/extract-design-system', g:'https://github.com/arvindrk/extract-design-system', s:'89K installs', r:5},
+  {n:'excalidraw-diagram', d:'Generate Excalidraw diagrams from natural language with self-validation and layout correction.', a:'coleam00', c:'design', i:'git clone https://github.com/coleam00/excalidraw-diagram-skill', g:'https://github.com/coleam00/excalidraw-diagram-skill', s:'1.2K★', r:5},
+  {n:'mermaid-skills', d:'Pretty Mermaid diagram rendering with theme support, layout improvements, and export-quality output.', a:'imxv', c:'design', i:'git clone https://github.com/imxv/Pretty-mermaid-skills', g:'https://github.com/imxv/Pretty-mermaid-skills', s:'487★', r:4},
+  {n:'logo-generator', d:'SVG logo generation with proper geometry, brand-safe color systems, and export at multiple resolutions.', a:'op7418', c:'design', i:'git clone https://github.com/op7418/logo-generator-skill', g:'https://github.com/op7418/logo-generator-skill', s:'832★', r:4},
+  {n:'sprite-forge', d:'Generate sprite sheets for games — pixel art animations, attack sequences, character idle/walk/run cycles.', a:'0x0funky', c:'design', i:'git clone https://github.com/0x0funky/agent-sprite-forge', g:'https://github.com/0x0funky/agent-sprite-forge', s:'1.3K★', r:4},
+  {n:'nothing-design', d:'Nothing design language UI — dotted matrix patterns, monospace typography, transparent UI elements.', a:'dominikmartn', c:'design', i:'git clone https://github.com/dominikmartn/nothing-design-skill', g:'https://github.com/dominikmartn/nothing-design-skill', s:'1.2K★', r:4},
+  {n:'figma-implement-design', d:'Translate Figma designs to production code 1:1 using Figma MCP — preserves layout, tokens, and component variants.', a:'figma', c:'design', i:'npx skills add figma/skills/figma-implement-design -g -a claude-code', g:'https://github.com/figma/skills', f:1, r:5},
+  {n:'figma-generate-library', d:'Build a Figma design system library directly from your existing codebase — reverse design system extraction.', a:'figma', c:'design', i:'npx skills add figma/skills/figma-generate-library -g -a claude-code', g:'https://github.com/figma/skills', r:5},
+  {n:'web-asset-generator', d:'Generate favicons, app icons, and social media images at all required sizes with consistent branding.', a:'alonw0', c:'design', i:'git clone https://github.com/alonw0/web-asset-generator', g:'https://github.com/alonw0/web-asset-generator', r:4},
+
+  // ════════════════ MARKETING ════════════════
+  {n:'marketingskills', d:'33+ marketing skills + 61 CLI tools spanning CRO, SEO, copywriting, analytics, growth. The most-installed marketing toolkit.', a:'coreyhaines31', c:'marketing', i:'npx skills add coreyhaines31/marketingskills --all -g -a claude-code', g:'https://github.com/coreyhaines31/marketingskills', f:1, s:'4.8K★', r:5},
+  {n:'seo-audit', d:'Technical and on-page SEO audit with prioritized action plan — sitemap analysis, Core Web Vitals, schema markup gaps.', a:'coreyhaines31', c:'marketing', i:'npx skills add coreyhaines31/marketingskills/seo-audit -g -a claude-code', g:'https://github.com/coreyhaines31/marketingskills', s:'103K installs', r:5},
+  {n:'copywriting', d:'Persuasive copy across formats: headlines, landing pages, email sequences, ads. Trained on top-performing patterns.', a:'coreyhaines31', c:'marketing', i:'npx skills add coreyhaines31/marketingskills/copywriting -g -a claude-code', g:'https://github.com/coreyhaines31/marketingskills', s:'93K installs', r:5},
+  {n:'page-cro', d:'Conversion rate analysis for landing/product pages — friction audit, social proof placement, hierarchy fixes.', a:'coreyhaines31', c:'marketing', i:'npx skills add coreyhaines31/marketingskills/page-cro -g -a claude-code', g:'https://github.com/coreyhaines31/marketingskills', r:5},
+  {n:'email-sequence', d:'Multi-touch email sequences with arc, personalization, and timing — drip campaigns, lifecycle, win-back flows.', a:'coreyhaines31', c:'marketing', i:'npx skills add coreyhaines31/marketingskills/email-sequence -g -a claude-code', g:'https://github.com/coreyhaines31/marketingskills', r:5},
+  {n:'humanize-writing', d:'Rewrites AI-detectable text into a more natural human voice — beats both detectors and reader bullshit detectors.', a:'blader', c:'marketing', i:'git clone https://github.com/blader/humanizer', g:'https://github.com/blader/humanizer', s:'2.9K★', r:4},
+  {n:'claude-seo', d:'30+ SEO skills, 10 agents, GEO SEO. Universal SEO toolkit covering technical, content, and link strategy.', a:'AgriciDaniel', c:'marketing', i:'git clone https://github.com/AgriciDaniel/claude-seo', g:'https://github.com/AgriciDaniel/claude-seo', s:'1.5K★', r:5},
+  {n:'claude-ads', d:'Multi-platform audits (Google, Meta, LinkedIn, TikTok). Diagnoses underperforming ad accounts and suggests fixes.', a:'AgriciDaniel', c:'marketing', i:'git clone https://github.com/AgriciDaniel/claude-ads', g:'https://github.com/AgriciDaniel/claude-ads', s:'2.8K★', r:4},
+  {n:'claude-blog', d:'17 commands, 12 templates, 100-point content scoring. End-to-end blog content production pipeline.', a:'AgriciDaniel', c:'marketing', i:'git clone https://github.com/AgriciDaniel/claude-blog', g:'https://github.com/AgriciDaniel/claude-blog', r:4},
+  {n:'scroll-stopping-creative', d:'Create attention-stopping ads that pass the 3-second scroll test. Headline matrix and ad-angle multiplier built in.', a:'realkimbarrett', c:'marketing', i:'git clone https://github.com/realkimbarrett/advertising-skills', g:'https://github.com/realkimbarrett/advertising-skills', s:'509★', r:5},
+  {n:'rampstack-brand-build', d:'59 skills for full website lifecycle: brand, design, content, SEO, dev, ops, growth. The complete agency stack.', a:'rampstackco', c:'marketing', i:'git clone https://github.com/rampstackco/claude-skills', g:'https://github.com/rampstackco/claude-skills', r:4},
+  {n:'reepl-linkedin', d:'18 tools for drafting, publishing, scheduling LinkedIn content — handles thread breaks, hooks, engagement triggers.', a:'reepl-io', c:'marketing', i:'npx skillkit@latest install reepl-io/skills', g:'https://github.com/reepl-io/skills', r:4},
+  {n:'geo-seo-claude', d:'GEO-first SEO skill — optimizes for AI Overviews, Perplexity, and answer engines beyond traditional Google rankings.', a:'zubair-trabzada', c:'marketing', i:'git clone https://github.com/zubair-trabzada/geo-seo-claude', g:'https://github.com/zubair-trabzada/geo-seo-claude', s:'3.5K★', r:4},
+  {n:'twitter-algo-optimizer', d:'Optimize tweets using Twitter\'s open-source algorithm — engagement triggers, reply chain dynamics, virality factors.', a:'composiohq', c:'marketing', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:3},
+
+  // ════════════════ PRODUCTIVITY ════════════════
+  {n:'brainstorming', d:'Structured ideation and problem decomposition — Socratic questioning that transforms rough ideas into formed designs.', a:'obra', c:'productivity', i:'npx skills add obra/superpowers/brainstorming -g -a claude-code', g:'https://github.com/obra/superpowers', s:'147K installs', r:5},
+  {n:'writing-plans', d:'Write structured implementation plans before starting complex tasks — checkpoints, verification steps, exit criteria.', a:'obra', c:'productivity', i:'npx skills add obra/superpowers/writing-plans -g -a claude-code', g:'https://github.com/obra/superpowers', s:'87K installs', r:5},
+  {n:'executing-plans', d:'Execute a plan step-by-step with checkpoints and verification at each stage. Prevents drift on multi-step work.', a:'obra', c:'productivity', i:'npx skills add obra/superpowers/executing-plans -g -a claude-code', g:'https://github.com/obra/superpowers', s:'71K installs', r:5},
+  {n:'planning-with-files', d:'Persistent task planning using markdown files on disk to maintain working memory across sessions. Manus-style 2-action rule.', a:'OthmanAdi', c:'productivity', i:'git clone https://github.com/OthmanAdi/planning-with-files', g:'https://github.com/OthmanAdi/planning-with-files', s:'9.7K★', r:5},
+  {n:'grill-me', d:'Matt Pocock\'s "grill me" review workflow — adversarial code review that catches the bugs your normal review misses.', a:'mattpocock', c:'productivity', i:'npx skills add mattpocock/skills/grill-me -g -a claude-code', g:'https://github.com/mattpocock/skills', s:'107K installs', r:5},
+  {n:'to-prd', d:'Convert chat into a real PRD — extracts goals, requirements, success metrics, and edge cases from rambling conversations.', a:'mattpocock', c:'productivity', i:'npx skills add mattpocock/skills/to-prd -g -a claude-code', g:'https://github.com/mattpocock/skills', s:'59K installs', r:5},
+  {n:'to-issues', d:'Convert spec into GitHub issues — splits a large doc into properly-scoped tickets with labels, milestones, dependencies.', a:'mattpocock', c:'productivity', i:'npx skills add mattpocock/skills/to-issues -g -a claude-code', g:'https://github.com/mattpocock/skills', s:'56K installs', r:5},
+  {n:'tapestry', d:'Interlink and summarize related documents into knowledge networks — builds a personal Wikipedia from your notes.', a:'michalparkola', c:'productivity', i:'npx skills add michalparkola/tapestry-skills-for-claude-code --all -g -a claude-code', g:'https://github.com/michalparkola/tapestry-skills-for-claude-code', r:5},
+  {n:'product-manager-skills', d:'Agile, UX research, analytics, OKRs, stakeholder management — full PM toolkit by Dean Peters.', a:'deanpeters', c:'productivity', i:'git clone https://github.com/deanpeters/Product-Manager-Skills', g:'https://github.com/deanpeters/Product-Manager-Skills', s:'4.7K★', r:5},
+  {n:'pm-pilot', d:'25 PM skills: PRDs, OKRs, stakeholder intel, roadmap drafting, retro facilitation. Senior PM workflows in a box.', a:'mshadmanrahman', c:'productivity', i:'git clone https://github.com/mshadmanrahman/pm-pilot', g:'https://github.com/mshadmanrahman/pm-pilot', r:4},
+  {n:'lark-doc', d:'Lark Suite document operations — read, write, organize. Useful for orgs on Lark instead of Google Workspace.', a:'larksuite', c:'productivity', i:'npx skills add larksuite/cli/lark-doc -g -a claude-code', g:'https://github.com/larksuite/cli', s:'107K installs', r:4},
+  {n:'notebooklm', d:'Chat with NotebookLM for source-grounded answers. Pulls citations from your sources, not the open web.', a:'PleasePrompto', c:'productivity', i:'git clone https://github.com/PleasePrompto/notebooklm-skill', g:'https://github.com/PleasePrompto/notebooklm-skill', s:'2.7K★', r:4},
+  {n:'meeting-insights', d:'Analyze meeting transcripts: speaking ratios, filler words, leadership style, action item extraction.', a:'composiohq', c:'productivity', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:4},
+  {n:'invoice-organizer', d:'Auto-organize invoices and receipts for tax preparation — line item extraction, category mapping, summary reports.', a:'composiohq', c:'productivity', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:3},
+  {n:'tailored-resume', d:'Generate tailored resumes from job descriptions — ATS-friendly, keyword-optimized, with bullet points that match the role.', a:'composiohq', c:'productivity', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:4},
+  {n:'caveman', d:'Token-reduction speech style for autonomous agent loops — drops articles and politeness to save context. Anti-verbosity.', a:'JuliusBrussee', c:'productivity', i:'npx skills add JuliusBrussee/caveman -g -a claude-code', g:'https://github.com/JuliusBrussee/caveman', s:'27.9K★', r:4},
+
+  // ════════════════ TESTING ════════════════
+  {n:'webapp-testing', d:'Test local web applications with native Python Playwright scripts. Verify frontend, debug UI, capture screenshots.', a:'anthropics', c:'testing', i:'npx skills add anthropics/skills/webapp-testing -g -a claude-code', g:'https://github.com/anthropics/skills/tree/main/skills/webapp-testing', o:1, f:1, s:'65K installs', r:5},
+  {n:'test-driven-development', d:'TDD loop: failing test first, minimal change, verify, refactor. Anti-pattern reference catches common shortcuts.', a:'obra', c:'testing', i:'npx skills add obra/superpowers/test-driven-development -g -a claude-code', g:'https://github.com/obra/superpowers', s:'76K installs', r:5},
+  {n:'systematic-debugging', d:'Hypothesis-driven debugging loop: observe, hypothesize, test, verify. Replaces guessing with method.', a:'obra', c:'testing', i:'npx skills add obra/superpowers/systematic-debugging -g -a claude-code', g:'https://github.com/obra/superpowers', s:'88K installs', r:5},
+  {n:'verification-before-completion', d:'Force a verification pass before any task is marked complete. Catches the "looks done but isn\'t" failure mode.', a:'obra', c:'testing', i:'npx skills add obra/superpowers/verification-before-completion -g -a claude-code', g:'https://github.com/obra/superpowers', s:'63K installs', r:5},
+  {n:'playwright-skill', d:'General-purpose browser automation using Playwright. Selectors, fixtures, parallelism, CI integration.', a:'lackeyjb', c:'testing', i:'git clone https://github.com/lackeyjb/playwright-skill', g:'https://github.com/lackeyjb/playwright-skill', s:'1.5K★', r:4},
+  {n:'playwright-best-practices', d:'Playwright patterns: page objects, fixtures, parallelism, retries, CI integration. Battle-tested e2e setup.', a:'currents-dev', c:'testing', i:'npx skills add currents-dev/playwright-best-practices-skill -g -a claude-code', g:'https://github.com/currents-dev/playwright-best-practices-skill', s:'37K installs', r:5},
+  {n:'spartan-ai-toolkit', d:'Implements typecheck → lint → test → review quality gates in sequence — won\'t move forward if any step fails.', a:'spartan-stratos', c:'testing', i:'git clone https://github.com/spartan-stratos/spartan-ai-toolkit', g:'https://github.com/spartan-stratos/spartan-ai-toolkit', r:5},
+  {n:'pypict', d:'Pairwise Independent Combinatorial Testing case design — generates minimal but coverage-maximizing test sets.', a:'omkamal', c:'testing', i:'git clone https://github.com/omkamal/pypict-claude-skill', g:'https://github.com/omkamal/pypict-claude-skill', r:4},
+  {n:'tdd-mastery', d:'Red-green-refactor with strict discipline, coverage targets, and test-first design patterns.', a:'rohitg00', c:'testing', i:'npx skills add rohitg00/awesome-claude-code-toolkit/tdd-mastery -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+  {n:'tdd-mattpocock', d:'Matt Pocock\'s TDD workflow with TypeScript-specific patterns. Real engineer, real cases.', a:'mattpocock', c:'testing', i:'npx skills add mattpocock/skills/tdd -g -a claude-code', g:'https://github.com/mattpocock/skills', s:'76K installs', r:5},
+  {n:'accessibility-wcag', d:'ARIA patterns, keyboard navigation, color contrast, screen reader testing. WCAG 2.2 compliance audits.', a:'rohitg00', c:'testing', i:'npx skills add rohitg00/awesome-claude-code-toolkit/accessibility-wcag -g -a claude-code', g:'https://github.com/rohitg00/awesome-claude-code-toolkit', r:4},
+  {n:'agent-browser', d:'Full browser automation: navigate, click, fill forms, extract data, screenshot. DOM-aware, ref-based control.', a:'vercel-labs', c:'testing', i:'npm install -g agent-browser && agent-browser install', g:'https://github.com/vercel-labs/agent-browser', f:1, s:'255K installs', r:5},
+
+  // ════════════════ DEV TOOLING ════════════════
+  {n:'simplify', d:'Review recently changed files for code reuse, quality, and efficiency issues — runs three review agents in parallel and aggregates findings.', a:'anthropics', c:'tooling', i:'/simplify', g:'https://github.com/anthropics/claude-code', o:1, b:1, f:1, r:5},
+  {n:'review', d:'Built-in PR review skill that examines bugs, logic errors, edge cases, style, and potential problems.', a:'anthropics', c:'tooling', i:'/review', g:'https://github.com/anthropics/claude-code', o:1, b:1, r:5},
+  {n:'init', d:'Initialize a new CLAUDE.md file with codebase documentation — auto-discovers conventions, frameworks, and common commands.', a:'anthropics', c:'tooling', i:'/init', g:'https://github.com/anthropics/claude-code', o:1, b:1, r:5},
+  {n:'loop', d:'Run a prompt repeatedly while session stays open — with optional interval. Monitor builds, watch deploys, recurring tasks.', a:'anthropics', c:'tooling', i:'/loop', g:'https://github.com/anthropics/claude-code', o:1, b:1, r:4},
+  {n:'batch', d:'Decompose work into 5-30 independent units, spawn one background agent per unit in isolated worktrees, run tests, open PRs.', a:'anthropics', c:'tooling', i:'/batch', g:'https://github.com/anthropics/claude-code', o:1, b:1, r:5},
+  {n:'fewer-permission-prompts', d:'Scan transcripts for common read-only Bash and MCP tool calls. Add a prioritized allowlist to project settings.', a:'anthropics', c:'tooling', i:'/fewer-permission-prompts', g:'https://github.com/anthropics/claude-code', o:1, b:1, r:4},
+  {n:'consolidate-memory', d:'Reflective pass over your memory files — merges duplicates, fixes stale facts, prunes the index, rebuilds MEMORY.md.', a:'anthropics', c:'tooling', i:'/consolidate-memory', g:'https://github.com/anthropics/claude-code', o:1, b:1, r:5},
+  {n:'find-skills', d:'Discover and install skills from skills.sh directly inside an agent session. Most-installed skill ever — 1.4M.', a:'vercel-labs', c:'tooling', i:'npx skills add vercel-labs/skills/find-skills -g -a claude-code', g:'https://github.com/vercel-labs/skills', f:1, s:'1.4M installs', r:5},
+  {n:'skill-seekers', d:'Convert documentation websites into Claude Skills automatically — point at any docs site, get a SKILL.md you can install.', a:'yusufkaraaslan', c:'tooling', i:'git clone https://github.com/yusufkaraaslan/Skill_Seekers', g:'https://github.com/yusufkaraaslan/Skill_Seekers', r:5},
+  {n:'git-commit-writer', d:'Analyzes staged changes and writes conventional commit messages. Turns a five-minute chore into a two-second confirmation.', a:'agensi', c:'tooling', i:'npx claude-code-templates@latest --skill git/git-commit-writer', g:'https://www.agensi.io/skills/git-commit-writer', f:1, r:5},
+  {n:'pr-description-writer', d:'Generates complete PR descriptions from branch diffs. Faster reviews with fewer back-and-forths.', a:'agensi', c:'tooling', i:'npx claude-code-templates@latest --skill git/pr-description-writer', g:'https://www.agensi.io', r:5},
+  {n:'changelog-generator', d:'Transforms commits into user-facing release notes. Translates technical commit history into plain-language summaries.', a:'agensi', c:'tooling', i:'npx claude-code-templates@latest --skill release/changelog-generator', g:'https://www.agensi.io', r:4},
+  {n:'readme-generator', d:'Scans project structure and generates complete README.md — solid first draft from actual repo content.', a:'agensi', c:'tooling', i:'npx claude-code-templates@latest --skill docs/readme-generator', g:'https://www.agensi.io', r:4},
+  {n:'env-doctor', d:'Diagnoses runtime, dependency, and environment issues systematically. Replaces guesswork with detective work.', a:'agensi', c:'tooling', i:'npx claude-code-templates@latest --skill devops/env-doctor', g:'https://www.agensi.io/skills/env-doctor', f:1, r:5},
+  {n:'cc-inspect', d:'Dashboard for skills, plugins, MCP servers, hooks. See what\'s installed, what\'s firing, what\'s broken.', a:'howardpen9', c:'tooling', i:'git clone https://github.com/howardpen9/cc-inspect', g:'https://github.com/howardpen9/cc-inspect', r:4},
+  {n:'mcp-server-builder', d:'Transforms OpenAPI specs into MCP servers automatically — feed it a spec, get a working MCP server.', a:'alirezarezvani', c:'tooling', i:'git clone https://github.com/alirezarezvani/claude-skills', g:'https://github.com/alirezarezvani/claude-skills', s:'5.2K★', r:5},
+  {n:'using-git-worktrees', d:'Use git worktrees to run parallel agent sessions on separate branches without merge conflicts.', a:'obra', c:'tooling', i:'npx skills add obra/superpowers/using-git-worktrees -g -a claude-code', g:'https://github.com/obra/superpowers', s:'59K installs', r:5},
+
+  // ════════════════ WEB SCRAPING ════════════════
+  {n:'firecrawl-build', d:'Web search, scraping, extraction, browser interaction — the full Firecrawl toolkit. Most reliable scraper for AI agents.', a:'firecrawl', c:'scraping', i:'npx skills add firecrawl/cli/firecrawl-build -g -a claude-code', g:'https://github.com/firecrawl', f:1, s:'51K installs', r:5},
+  {n:'firecrawl-scrape', d:'Single-page extraction with /scrape — handles JS-rendered pages, returns clean markdown.', a:'firecrawl', c:'scraping', i:'npx skills add firecrawl/cli/firecrawl-scrape -g -a claude-code', g:'https://github.com/firecrawl', s:'37K installs', r:5},
+  {n:'firecrawl-search', d:'Query-first discovery with optional content hydration — search the web, get URLs back, optionally scrape top results.', a:'firecrawl', c:'scraping', i:'npx skills add firecrawl/cli/firecrawl-search -g -a claude-code', g:'https://github.com/firecrawl', s:'37K installs', r:5},
+  {n:'firecrawl-crawl', d:'Multi-page crawl — follow internal links, respect robots.txt, extract structured data from entire sites.', a:'firecrawl', c:'scraping', i:'npx skills add firecrawl/cli/firecrawl-crawl -g -a claude-code', g:'https://github.com/firecrawl', s:'36K installs', r:4},
+  {n:'browser-use', d:'Browser automation with visual understanding — interacts with pages based on what it sees, not just selectors.', a:'browser-use', c:'scraping', i:'pip install browser-use && browser-use install', g:'https://github.com/browser-use/browser-use', s:'74K installs', r:5},
+  {n:'apify-skills', d:'Web scraping and automation via Apify\'s actor platform. 1000s of pre-built scrapers for popular sites.', a:'apify', c:'scraping', i:'npx skills add apify/agent-skills --all -g -a claude-code', g:'https://github.com/apify/agent-skills', s:'2K★', r:4},
+  {n:'browserbase-skills', d:'Web access skills using Browserbase managed browsers — handles captchas, residential proxies, session persistence.', a:'browserbase', c:'scraping', i:'npx skills add browserbase/skills --all -g -a claude-code', g:'https://github.com/browserbase/skills', s:'1.9K★', r:4},
+  {n:'dev-browser', d:'Web browser skill for development tasks — local browser control with debug protocols, console inspection.', a:'SawyerHood', c:'scraping', i:'git clone https://github.com/SawyerHood/dev-browser', g:'https://github.com/SawyerHood/dev-browser', s:'3.3K★', r:4},
+  {n:'full-page-screenshot', d:'Full-page screenshots via Chrome DevTools Protocol — handles lazy-loaded images, infinite scroll, dynamic heights.', a:'LewisLiu007', c:'scraping', i:'git clone https://github.com/LewisLiu007/full-page-screenshot', g:'https://github.com/LewisLiu007/full-page-screenshot', r:4},
+  {n:'article-extractor', d:'Extract full article text and metadata from web pages — strips ads, related links, comments. Reader-mode for agents.', a:'michalparkola', c:'scraping', i:'git clone https://github.com/michalparkola/tapestry-skills-for-claude-code', g:'https://github.com/michalparkola/tapestry-skills-for-claude-code', r:4},
+  {n:'just-scrape', d:'Lightweight scraping skill — graph-based extraction with selector inference for sites without APIs.', a:'scrapegraphai', c:'scraping', i:'npx skills add scrapegraphai/just-scrape -g -a claude-code', g:'https://github.com/scrapegraphai/just-scrape', s:'62K installs', r:4},
+
+  // ════════════════ APIS / INTEGRATIONS ════════════════
+  {n:'stripe-best-practices', d:'Best practices for Stripe integrations — Connect, subscriptions, webhooks, idempotency, dispute handling.', a:'stripe', c:'api', i:'npx skills add stripe/agent-skills/stripe-best-practices -g -a claude-code', g:'https://github.com/stripe/agent-skills', f:1, r:5},
+  {n:'better-auth', d:'Auth integration with email/password, providers, organizations, 2FA. Modern auth without rolling your own.', a:'better-auth', c:'api', i:'npx skills add better-auth/skills --all -g -a claude-code', g:'https://github.com/better-auth/skills', s:'48K installs', r:5},
+  {n:'slack-automation', d:'Slack: send messages, search, manage channels, schedule posts, react. Bot-grade automation via Composio.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:5},
+  {n:'github-automation', d:'GitHub: issues, PRs, repos, branches, actions, code search. Full SDK access from your Claude Code session.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', f:1, r:5},
+  {n:'notion-automation', d:'Notion: pages, databases, blocks, comments, search. Sync your knowledge base from any agent context.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:5},
+  {n:'linear-automation', d:'Linear: issues, projects, cycles, teams, workflows. Auto-create tickets from PR descriptions, sync sprint state.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:5},
+  {n:'jira-automation', d:'Jira: issues, projects, boards, sprints, JQL queries. Move tickets, create epics, run reports from chat.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:4},
+  {n:'whatsapp-automation', d:'WhatsApp: send messages, media, templates, manage groups. Business API integration for customer comms.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:4},
+  {n:'gmail-automation', d:'Gmail: send/reply, search with operators, labels, drafts, attachments. Replace Zapier for personal email automation.', a:'composiohq', c:'api', i:'git clone https://github.com/ComposioHQ/awesome-claude-skills', g:'https://github.com/ComposioHQ/awesome-claude-skills', r:4},
+  {n:'gws-shared', d:'Google Workspace CLI base — shared auth, global flags, output formatting for all GWS skills.', a:'googleworkspace', c:'api', i:'npx skills add googleworkspace/skills/gws-shared -g -a claude-code', g:'https://github.com/googleworkspace/skills', r:5},
+  {n:'openweb', d:'Native JSON API access with auto-auth — agent uses the same APIs websites call internally instead of scraping.', a:'openweb-org', c:'api', i:'git clone https://github.com/openweb-org/openweb', g:'https://github.com/openweb-org/openweb', r:5},
+  {n:'chrome-relay', d:'Drives the user\'s actual Chrome session with cookies, SSO, extensions, localhost. The escape hatch for everything.', a:'kushalsm', c:'api', i:'npx skills add chrome-relay', g:'https://chrome-relay.kushalsm.com/', r:4},
+  {n:'connect-1000', d:'Connect Claude to 1000+ services for emails, issues, messages, databases — Composio\'s full integration layer.', a:'composiohq', c:'api', i:'npx skills add composiohq/skills --all -g -a claude-code', g:'https://github.com/ComposioHQ/awesome-claude-skills', f:1, r:5},
+  {n:'reddit-fetch', d:'Fetch Reddit content via Gemini CLI when WebFetch is blocked. Workaround for sites that fight scrapers.', a:'ykdojo', c:'api', i:'git clone https://github.com/ykdojo/claude-code-tips', g:'https://github.com/ykdojo/claude-code-tips', r:3},
+
+  // ════════════════ EDUCATION ════════════════
+  {n:'translate-book', d:'Translate full books between languages — chapter-aware, glossary-consistent, preserves footnotes and citations.', a:'deusyu', c:'education', i:'git clone https://github.com/deusyu/translate-book', g:'https://github.com/deusyu/translate-book', s:'432★', r:4},
+  {n:'codebase-to-course', d:'Generate HTML courses from any codebase — structured lessons, exercises, quizzes built from real source code.', a:'zarazhangrui', c:'education', i:'git clone https://github.com/zarazhangrui/codebase-to-course', g:'https://github.com/zarazhangrui/codebase-to-course', s:'2.7K★', r:4},
+  {n:'academic-research-skills', d:'Research workflow: literature search, paper analysis, citation management, related-work synthesis.', a:'Imbad0202', c:'education', i:'npx skills add Imbad0202/academic-research-skills --all -g -a claude-code', g:'https://github.com/Imbad0202/academic-research-skills', s:'3.4K★', r:4},
+  {n:'auto-claude-research', d:'ML research skills running in autonomous sleep mode — reads papers, runs experiments, synthesizes findings overnight.', a:'wanshuiyin', c:'education', i:'git clone https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep', g:'https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep', s:'6.6K★', r:5},
+  {n:'family-history-research', d:'Plan family history and genealogy research projects — handles records, citations, family-tree relationships.', a:'emaynard', c:'education', i:'git clone https://github.com/emaynard/claude-family-history-research-skill', g:'https://github.com/emaynard/claude-family-history-research-skill', r:3},
+  {n:'asd-audhd-pai-skills', d:'Reframe requests to defeat Persistent Demand Avoidance — accessibility skill for autism/ADHD users.', a:'emory', c:'education', i:'git clone https://github.com/emory/ASD-AuDHD-PAI-Skills', g:'https://github.com/emory/ASD-AuDHD-PAI-Skills', r:4},
+  {n:'last30days-skill', d:'Topic research skill that scans the last 30 days of news, papers, and posts — filters out stale results.', a:'mvanhorn', c:'education', i:'git clone https://github.com/mvanhorn/last30days-skill', g:'https://github.com/mvanhorn/last30days-skill', s:'1.3K★', r:4},
+  {n:'understand-anything', d:'Knowledge graph generation from any source — extracts entities, relationships, builds queryable concept maps.', a:'Lum1104', c:'education', i:'git clone https://github.com/Lum1104/Understand-Anything', g:'https://github.com/Lum1104/Understand-Anything', s:'2.1K★', r:4},
+  {n:'sci-agent-skills', d:'197 life science skills covering genomics, proteomics, drug discovery, molecular biology pipelines.', a:'jaechang-hits', c:'education', i:'git clone https://github.com/jaechang-hits/SciAgent-Skills', g:'https://github.com/jaechang-hits/SciAgent-Skills', r:4},
+  {n:'manim-skill', d:'Animation generation using Manim — explanatory math/CS animations in 3Blue1Brown style.', a:'adithya-s-k', c:'education', i:'git clone https://github.com/adithya-s-k/manim_skill', g:'https://github.com/adithya-s-k/manim_skill', s:'328★', r:4},
+];
+
+// ─── Auto-install prompts (Claude Code natural-language prompts) ──
+const ESSENTIAL_REPOS = [
+  ['anthropics/skills', 'Official Anthropic suite (docx, pdf, pptx, xlsx, frontend-design, etc.)'],
+  ['vercel-labs/agent-skills', 'React, Next.js, Web Design Guidelines'],
+  ['obra/superpowers', 'TDD, planning, debugging, parallel agents'],
+  ['mattpocock/skills', 'TypeScript discipline + grill-me reviews'],
+  ['trailofbits/skills', 'Pro-grade security review'],
+  ['firecrawl/cli', 'Web scraping + browser automation'],
+  ['supabase/agent-skills', 'Postgres + Supabase best practices'],
+  ['cloudflare/agent-skills', 'Workers, D1, Durable Objects'],
+  ['getsentry/agent-skills', 'Error tracking + observability'],
+  ['stripe/agent-skills', 'Payments + subscriptions'],
+  ['expo/skills', 'Mobile (React Native via Expo)'],
+  ['coreyhaines31/marketingskills', 'SEO, copy, CRO, growth'],
+  ['composiohq/skills', 'Connect to 1000+ SaaS apps'],
+];
+
+const POWER_REPOS = [
+  ['pbakaus/impeccable', 'Polish, critique, audit (10 design skills)'],
+  ['leonxlnx/taste-skill', 'Design taste — minimalist, brutalist, editorial'],
+  ['emilkowalski/skill', 'Emil Kowalski design engineering principles'],
+  ['remotion-dev/skills', 'Programmatic video with React'],
+  ['fal-ai-community/skills', 'AI image/video generation'],
+  ['replicate/skills', '1000+ AI models via Replicate'],
+  ['hashicorp/agent-skills', 'Terraform + IaC at scale'],
+  ['netlify/agent-skills', 'Netlify Functions, Edge, Forms'],
+  ['pulumi/agent-skills', 'Pulumi IaC TypeScript + ESC secrets'],
+  ['itsmostafa/aws-agent-skills', '18 AWS service skills'],
+  ['microsoft/azure-skills', '130+ Azure SDK skills'],
+  ['neondatabase/agent-skills', 'Neon serverless Postgres'],
+  ['clickhouse/agent-skills', 'ClickHouse analytics warehouses'],
+  ['huggingface/skills', 'HF datasets, training, evaluation'],
+  ['google-gemini/skills', 'Gemini API + Vertex AI'],
+  ['callstackincubator/agent-skills', 'React Native deep'],
+  ['conorluddy/ios-simulator-skill', 'iOS simulator automation'],
+  ['twostraws/SwiftUI-Agent-Skill', 'Paul Hudson SwiftUI'],
+  ['flutter/skills', 'Flutter widgets + state'],
+  ['mukul975/Anthropic-Cybersecurity-Skills', '753 cybersecurity skills'],
+  ['michalparkola/tapestry-skills-for-claude-code', 'Knowledge networks'],
+  ['deanpeters/Product-Manager-Skills', 'Full PM toolkit'],
+  ['larksuite/cli', 'Lark Suite docs/approvals'],
+  ['realkimbarrett/advertising-skills', '12 ads psychology skills'],
+  ['AgriciDaniel/claude-seo', '30 SEO + 10 agents'],
+  ['rampstackco/claude-skills', '59-skill brand build pipeline'],
+  ['currents-dev/playwright-best-practices-skill', 'Playwright patterns'],
+  ['K-Dense-AI/scientific-agent-skills', 'Research + science'],
+  ['Imbad0202/academic-research-skills', 'Academic workflow'],
+  ['deusyu/translate-book', 'Book translation'],
+];
+
+const MEGA_REPOS = [...ESSENTIAL_REPOS.map(r => r[0]), ...POWER_REPOS.map(r => r[0]), 'apify/agent-skills', 'browserbase/skills', 'shadcn/ui', 'figma/skills', 'forrestchang/andrej-karpathy-skills', 'OthmanAdi/planning-with-files', 'wanshuiyin/Auto-claude-code-research-in-sleep', 'addyosmani/web-quality-skills', 'better-auth/skills'];
+
+function buildAutoInstallPrompt(name, repos, intro) {
+  const cmds = repos.map(r => Array.isArray(r) ? `npx skills add ${r[0]} --all -g -a claude-code -y  # ${r[1]}` : `npx skills add ${r} --all -g -a claude-code -y`).join('\n');
+  return `I want you to install the **${name}** of Claude Code skills for me. ${intro}
+
+Run each install command below one at a time. After each, briefly confirm "✓ <repo>" if it succeeded, or "✗ <repo>: <reason>" if it failed — then continue with the next one. Do NOT stop on errors.
+
+\`\`\`bash
+${cmds}
+\`\`\`
+
+When done:
+1. Tell me how many of the ${repos.length} succeeded
+2. List any failures with the error message
+3. Run \`/help\` and surface 5 brand-new skills I now have
+4. Suggest 3 example prompts I could try with the new skills
+
+Don't skip step 4 — that's the most important part.`;
+}
+
+const PROMPTS = [
+  {
+    icon:'⚡', title:'Install Essential Pack',
+    tag:'15 skills', accent:'var(--cyan)',
+    desc:'Paste in Claude Code. It runs the 13 essential repos for you, reports each, and suggests prompts to try.',
+    body: buildAutoInstallPrompt('Essential Pack', ESSENTIAL_REPOS, 'These are the 13 most-used repos that 80% of Claude-Code users have. ~30 seconds total.')
+  },
+  {
+    icon:'🚀', title:'Install Power Pack',
+    tag:'40+ skills', accent:'var(--purple-2)',
+    desc:'Adds design tooling, AI/ML, full mobile stack, IaC, advanced marketing, education. For serious operators.',
+    body: buildAutoInstallPrompt('Power Pack', POWER_REPOS, 'This adds 30+ specialised repos on top of the Essential Pack.')
+  },
+  {
+    icon:'🌌', title:'Install MEGA — everything',
+    tag:'500+ skills', accent:'var(--pink)',
+    desc:'All repos this site indexes. Massive. Token-hungry. But you\'ll never need to install another skill again.',
+    body: buildAutoInstallPrompt('MEGA Pack', MEGA_REPOS, 'This is the full kitchen sink — every repo from this directory. Expect ~5 minutes runtime and 200MB+ disk usage.')
+  },
+  {
+    icon:'🎯', title:'By category — interactive',
+    tag:'pick & install', accent:'var(--orange)',
+    desc:'Tell Claude what you\'re building. It picks the right category bundle and installs only those. Zero waste.',
+    body:`I'm working on a project. Help me install only the most relevant Claude Code skills for it.
+
+First, ask me 3 quick questions:
+1. What kind of project is this? (web app, mobile app, data pipeline, marketing site, internal tool, ...)
+2. What's the stack? (framework, language, hosting)
+3. What problems am I most likely to hit? (perf, security, design polish, scaling, ...)
+
+Based on my answers, recommend a tailored set of 5-15 Claude Code skills from these categories: documents, frontend, devops, security, ai, data, mobile, design, marketing, productivity, testing, tooling, scraping, api, education.
+
+For each skill: explain why it's relevant, then show me the \`npx skills add\` command. Wait for my "go" before running them. After install, /help and tell me what's new.`
+  },
+  {
+    icon:'🛠️', title:'Audit & apply on this project',
+    tag:'use installed skills', accent:'var(--green)',
+    desc:'After install — paste this. Claude scans your repo, picks relevant skills, and actually applies them.',
+    body:`I just installed a set of Claude Code skills. Now audit my current project (the working directory) and apply the relevant ones to improve it.
+
+Workflow:
+1. Run \`/help\` and list every skill I have
+2. Briefly scan the codebase: detect framework, languages, common files (package.json, README, src/, tests/)
+3. Pick the 3-5 skills most likely to add value RIGHT NOW
+4. For each picked skill: explain what it'll improve, then propose a concrete change. Wait for my "go" before applying.
+5. After each change is applied, summarise what changed and what to verify.
+
+Don't try to apply everything — be ruthless about what's actually useful for this specific project. If nothing fits, say so honestly.`
+  },
+  {
+    icon:'🧹', title:'Cleanup & maintenance',
+    tag:'after install', accent:'var(--cyan)',
+    desc:'After all the installs you might have duplicates or unused skills. This prompt does spring cleaning.',
+    body:`Help me clean up my Claude Code skills installation.
+
+Steps:
+1. Run \`/help\` and show me every installed skill
+2. Identify any obvious duplicates (e.g. multiple "tdd" skills, multiple "code-reviewer" skills)
+3. For duplicates: tell me which one is canonical (most-installed, official, best-maintained) and suggest removing the others
+4. Identify any skills that haven't been used in my recent sessions and ask whether to keep or remove them
+5. After my decisions, output the exact \`rm -rf ~/.claude/skills/<name>\` commands to run
+
+Don't actually delete anything — just propose, then wait for my approval.`
+  },
+];
+
+function renderPrompts() {
+  const grid = document.getElementById('promptsGrid');
+  if (!grid) return;
+  grid.innerHTML = PROMPTS.map((p, idx) => `
+    <article class="prompt-card" style="--accent:${p.accent}">
+      <div class="pc-head">
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="pc-icon">${p.icon}</span>
+          <h3 class="pc-title">${escHtml(p.title)}</h3>
+        </div>
+        <span class="pc-tag">${escHtml(p.tag)}</span>
+      </div>
+      <p class="pc-desc">${escHtml(p.desc)}</p>
+      <div class="pc-body" id="prompt-${idx}">${escHtml(p.body)}</div>
+      <div class="pc-foot">
+        <span class="meta">~${p.body.split('\n').length} lines</span>
+        <button class="copy-btn" data-copy-prompt="${idx}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy prompt
+        </button>
+      </div>
+    </article>
+  `).join('');
+  grid.addEventListener('click', async e => {
+    const btn = e.target.closest('[data-copy-prompt]');
+    if (!btn) return;
+    const idx = parseInt(btn.dataset.copyPrompt, 10);
+    const ok = await copyText(PROMPTS[idx].body);
+    if (ok) {
+      btn.classList.add('is-copied');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> Copied prompt';
+      showToast('Prompt copied — paste into Claude Code');
+      setTimeout(() => { btn.classList.remove('is-copied'); btn.innerHTML = orig; }, 2000);
+    }
+  });
+}
+
+// ─── Render gallery ──────────────────────────────────────
+const grid = document.getElementById('skillGrid');
+const empty = document.getElementById('emptyState');
+const pillsEl = document.getElementById('catPills');
+const catGridEl = document.getElementById('catGrid');
+const searchEl = document.getElementById('searchInput');
+const sortEl = document.getElementById('sortSelect');
+let activeCat = 'all';
+let query = '';
+let sortMode = 'featured';
+
+const escHtml = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const renderStars = r => {
+  const out = [];
+  for (let i = 1; i <= 5; i++) out.push(`<span class="star${i <= r ? ' on' : ''}">★</span>`);
+  return out.join('');
+};
+
+const fmtCmd = i => {
+  const parts = i.split(/\s+/);
+  return parts.map((p,idx) => {
+    if (idx === 0) return `<span class="pre">${escHtml(p)}</span>`;
+    if (p.startsWith('-')) return `<span class="opt">${escHtml(p)}</span>`;
+    if (idx === 1) return `<span class="arg">${escHtml(p)}</span>`;
+    return escHtml(p);
+  }).join(' ');
+};
+
+function renderCard(s) {
+  const cat = C[s.c];
+  const tags = [];
+  if (s.o) tags.push('<span class="sk-tag official">★ official</span>');
+  if (s.b) tags.push('<span class="sk-tag builtin">▸ built-in</span>');
+  if (s.f) tags.push('<span class="sk-tag featured">⚡ featured</span>');
+  return `<article class="skill-card${s.f ? ' is-featured' : ''}" data-cat="${s.c}" style="--accent:${cat.col}">
+    <div class="sk-row1">
+      <div class="sk-cat"><span class="ic">${cat.ic}</span>${cat.n}</div>
+      <div class="sk-tags">${tags.join('')}</div>
+    </div>
+    <h3 class="sk-name">${escHtml(s.n)}</h3>
+    <div class="sk-author">@${escHtml(s.a)}${s.g ? ` · <a href="${s.g}" target="_blank" rel="noopener">↗ source</a>` : ''}</div>
+    <p class="sk-desc">${escHtml(s.d)}</p>
+    <div class="sk-cmd" data-cmd="${escHtml(s.i)}">${fmtCmd(s.i)}</div>
+    <div class="sk-row-bot">
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="sk-rating" aria-label="rating ${s.r}/5">${renderStars(s.r)}</div>
+        ${s.s ? `<div class="sk-stars">${s.s}</div>` : ''}
+      </div>
+      <div class="sk-actions">
+        <button class="sk-icon-btn" data-copy="${escHtml(s.i)}" aria-label="copy install command" title="Copy install command">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function applyFilters() {
+  const q = query.trim().toLowerCase();
+  let list = SKILLS.slice();
+  if (activeCat !== 'all') list = list.filter(s => s.c === activeCat);
+  if (q) list = list.filter(s =>
+    s.n.toLowerCase().includes(q) ||
+    s.d.toLowerCase().includes(q) ||
+    s.a.toLowerCase().includes(q) ||
+    (C[s.c].n + ' ' + C[s.c].desc).toLowerCase().includes(q)
+  );
+  if (sortMode === 'name') list.sort((a,b) => a.n.localeCompare(b.n));
+  else if (sortMode === 'rating') list.sort((a,b) => (b.r||0) - (a.r||0));
+  else if (sortMode === 'popular') list.sort((a,b) => parseInstalls(b.s) - parseInstalls(a.s));
+  else list.sort((a,b) => (b.f?1:0) - (a.f?1:0) || (b.r||0) - (a.r||0));
+  grid.innerHTML = list.map(renderCard).join('');
+  empty.style.display = list.length ? 'none' : 'block';
+  grid.style.display = list.length ? '' : 'none';
+}
+
+function parseInstalls(s) {
+  if (!s) return 0;
+  const m = String(s).match(/([\d.]+)\s*([KkMm])?/);
+  if (!m) return 0;
+  const n = parseFloat(m[1]);
+  const u = (m[2] || '').toLowerCase();
+  return u === 'm' ? n*1e6 : u === 'k' ? n*1e3 : n;
+}
+
+// ─── Pills ───────────────────────────────────────────────
+function renderPills() {
+  const total = SKILLS.length;
+  const pills = [`<button class="cat-pill is-active" data-cat="all"><span class="ic">◇</span>All <span class="ct">${total}</span></button>`];
+  Object.entries(C).forEach(([id, cat]) => {
+    const count = SKILLS.filter(s => s.c === id).length;
+    pills.push(`<button class="cat-pill" data-cat="${id}"><span class="ic">${cat.ic}</span>${cat.n} <span class="ct">${count}</span></button>`);
+  });
+  pillsEl.innerHTML = pills.join('');
+}
+
+// ─── Category install grid (Tab C) ───────────────────────
+function renderCatGrid() {
+  const cells = Object.entries(C).map(([id, cat]) => {
+    const count = SKILLS.filter(s => s.c === id).length;
+    const top = SKILLS.filter(s => s.c === id).sort((a,b) => (b.f?1:0) - (a.f?1:0) || (b.r||0) - (a.r||0)).slice(0, 4);
+    const cmds = top.map(s => s.i).join('\n');
+    return `<div class="cat-cell" data-cat-cmd="${escHtml(cmds)}" data-cat-name="${cat.n}">
+      <span class="ic">${cat.ic}</span>
+      <div class="nm">${cat.n}</div>
+      <div class="ct">${count} skills · ${cat.desc}</div>
+      <div class="cmd"># Top ${top.length} from ${cat.n.toLowerCase()}<br>npx skills add ${escHtml(top[0].a)}/...</div>
+    </div>`;
+  });
+  catGridEl.innerHTML = cells.join('');
+}
+
+// ─── Counter animation ───────────────────────────────────
+function animateCounters() {
+  // Resolve dynamic counter keys from real data
+  const totals = {
+    total: SKILLS.length,
+    authors: new Set(SKILLS.map(s => s.a)).size,
+    official: SKILLS.filter(s => s.o).length,
+  };
+  document.querySelectorAll('[data-counter-key]').forEach(el => {
+    el.dataset.counter = totals[el.dataset.counterKey] ?? 0;
+  });
+
+  document.querySelectorAll('[data-counter], [data-counter-key]').forEach(el => {
+    const target = parseInt(el.dataset.counter, 10);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1400;
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.floor(target * eased) + (t === 1 ? suffix : '');
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+// ─── Toast helper ────────────────────────────────────────
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = '✓ ' + msg;
+  toast.classList.add('is-show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('is-show'), 1800);
+}
+
+// ─── Copy helpers ────────────────────────────────────────
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+}
+
+// ─── Debounce ────────────────────────────────────────────
+function debounce(fn, ms) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
+}
+
+// ─── Wire events ─────────────────────────────────────────
+function init() {
+  renderPills();
+  renderCatGrid();
+  renderPrompts();
+  applyFilters();
+  animateCounters();
+
+  // counter in topbar + inline labels
+  const total = SKILLS.length;
+  document.getElementById('topcount').textContent = total;
+  const bc = document.getElementById('browseCount');
+  if (bc) bc.textContent = total;
+  const bc2 = document.getElementById('browseCount2');
+  if (bc2) bc2.textContent = total;
+  document.querySelectorAll('[data-fill]').forEach(el => {
+    const k = el.dataset.fill;
+    if (k === 'total') el.textContent = total;
+    else if (k === 'authors') el.textContent = new Set(SKILLS.map(s => s.a)).size;
+    else if (k === 'official') el.textContent = SKILLS.filter(s => s.o).length;
+    else if (k === 'cats') el.textContent = Object.keys(C).length;
+  });
+
+  // Pill click
+  pillsEl.addEventListener('click', e => {
+    const btn = e.target.closest('[data-cat]');
+    if (!btn) return;
+    pillsEl.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    activeCat = btn.dataset.cat;
+    applyFilters();
+  });
+
+  // Tabs
+  document.querySelectorAll('.install-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      const pane = document.getElementById('pane-' + t.dataset.tab);
+      if (!pane) return;
+      document.querySelectorAll('.install-tab').forEach(x => {
+        x.classList.remove('is-active');
+        x.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.install-pane').forEach(x => x.classList.remove('is-active'));
+      t.classList.add('is-active');
+      t.setAttribute('aria-selected', 'true');
+      pane.classList.add('is-active');
+    });
+  });
+
+  // Tooltips inside tabs: don't trigger tab switch when clicking the ⓘ
+  document.querySelectorAll('.install-tab .tip').forEach(tip => {
+    tip.addEventListener('click', e => { e.stopPropagation(); });
+    tip.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') e.stopPropagation();
+    });
+  });
+
+  // Copy buttons (full pre blocks)
+  document.querySelectorAll('[data-copy-target]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = document.getElementById(btn.dataset.copyTarget);
+      const text = target.innerText;
+      const ok = await copyText(text);
+      if (ok) {
+        btn.classList.add('is-copied');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> Copied';
+        showToast(`Copied ${text.split('\n').filter(l => l.trim() && !l.trim().startsWith('#')).length} commands`);
+        setTimeout(() => { btn.classList.remove('is-copied'); btn.innerHTML = orig; }, 1800);
+      }
+    });
+  });
+
+  // Per-card copy
+  grid.addEventListener('click', async e => {
+    const btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    const ok = await copyText(btn.dataset.copy);
+    if (ok) {
+      btn.classList.add('is-copied');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>';
+      showToast('Install command copied');
+      setTimeout(() => {
+        btn.classList.remove('is-copied');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }, 1800);
+    }
+  });
+
+  // Category cells (Tab C)
+  catGridEl.addEventListener('click', async e => {
+    const cell = e.target.closest('[data-cat-cmd]');
+    if (!cell) return;
+    const cmds = cell.dataset.catCmd;
+    const ok = await copyText(cmds);
+    if (ok) showToast('Copied ' + cell.dataset.catName + ' bundle');
+  });
+
+  // Search (debounced for perf with 200+ cards)
+  const onSearch = debounce(() => applyFilters(), 80);
+  searchEl.addEventListener('input', e => {
+    query = e.target.value;
+    onSearch();
+  });
+
+  // "/" focuses search; Esc clears
+  const TYPING = new Set(['INPUT', 'TEXTAREA', 'SELECT']);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !TYPING.has(document.activeElement.tagName)) {
+      e.preventDefault();
+      searchEl.focus();
+    }
+    if (e.key === 'Escape' && document.activeElement === searchEl) {
+      searchEl.value = '';
+      query = '';
+      applyFilters();
+      searchEl.blur();
+    }
+  });
+
+  // Sort
+  sortEl.addEventListener('change', e => {
+    sortMode = e.target.value;
+    applyFilters();
+  });
+
+  // Set today
+  const monthName = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const today = new Date();
+  document.getElementById('today').textContent = monthName[today.getMonth()] + ' ' + today.getDate();
+  const u = document.getElementById('updatedDate');
+  if (u) u.textContent = today.toISOString().slice(0, 10);
+
+  // Wire repo / submit / contribute links
+  const setHref = (id, url) => { const el = document.getElementById(id); if (el) el.href = url; };
+  setHref('topRepoLink', REPO_URL);
+  setHref('topSubmitLink', ISSUE_NEW);
+  setHref('ctaIssue', ISSUE_NEW);
+  setHref('ctaPR', PR_NEW);
+  setHref('ctaDisc', REPO_URL + '/discussions');
+  document.querySelectorAll('[data-repo]').forEach(el => { el.href = REPO_URL; });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+name: Add a skill
+description: Submit a Claude Code skill to be added to the directory.
+title: "[skill] <name>"
+labels: ["new-skill"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Submit a skill in 30 seconds
+
+        Fill the fields below. A maintainer will review and add it within ~24h.
+        If you'd rather edit the file directly, see [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md).
+
+  - type: input
+    id: name
+    attributes:
+      label: Skill name
+      description: Short, lowercase, no spaces. Match the actual skill folder name.
+      placeholder: "e.g. terraform-style-guide"
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Author / publisher
+      description: GitHub user or org that publishes the skill.
+      placeholder: "e.g. hashicorp"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description (1–2 sentences)
+      description: What does it actually do? Avoid marketing words.
+      placeholder: "Applies HashiCorp's official HCL style conventions plus formatting, naming, and module organization rules."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Documents
+        - Frontend
+        - DevOps
+        - Security
+        - AI / LLM
+        - Data
+        - Mobile
+        - Design
+        - Marketing
+        - Productivity
+        - Testing
+        - Dev Tooling
+        - Web Scraping
+        - APIs
+        - Education
+    validations:
+      required: true
+
+  - type: input
+    id: install
+    attributes:
+      label: Install command
+      description: The command users run to install. Pick the canonical form.
+      placeholder: "npx skills add hashicorp/agent-skills/terraform-style-guide -g -a claude-code"
+    validations:
+      required: true
+
+  - type: input
+    id: github
+    attributes:
+      label: Source URL (GitHub or docs page)
+      placeholder: "https://github.com/hashicorp/agent-skills"
+    validations:
+      required: true
+
+  - type: input
+    id: stars
+    attributes:
+      label: Stars or installs (optional)
+      description: e.g. "12k★" or "230K installs". Skip if unknown.
+      placeholder: "5K★"
+
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Self-assessed rating (1–5)
+      description: Be honest. Self-promotion is fine; lying about quality is not.
+      options:
+        - "5 — best-in-class, you'd recommend it to everyone"
+        - "4 — solid, used regularly"
+        - "3 — works, niche use case"
+        - "2 — early / experimental"
+        - "1 — proof of concept"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: official
+    attributes:
+      label: Tags
+      options:
+        - label: This is an official Anthropic skill
+        - label: This is built into Claude Code (a slash command)
+        - label: I am the author of this skill
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: The skill has a public source URL that anyone can inspect
+          required: true
+        - label: The install command works as written (I tested it)
+          required: true
