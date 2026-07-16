@@ -1,0 +1,7 @@
+id,role,type,description,size/ratio,style_line_ref,source
+bg_sky,scrolling parallax sky+mountains backdrop,background,hazy Balkan valley skyline with layered blue-grey mountains and warm late-afternoon sky,16:9 1k,STYLE_FORMULA,generate
+yugo,hero player car sprite (side profile facing right, transparent),sprite,battered mustard-tan 1980s Yugo hatchback side view with smoke,3:2 -> transparent PNG,STYLE_FORMULA,generate
+thumbnail,deploy 16:9 cover / marketplace card,key-art,Yugo speeding down a Balkan road trailing smoke,16:9 1k,STYLE_FORMULA,generate
+favicon,deploy 1:1 site icon,icon,bold simple Yugo front badge emblem,1:1 1k,STYLE_FORMULA,generate
+road_tex,tiling road/asphalt + potholes + lane markings,procedural,dusty ochre asphalt drawn in canvas,procedural,STYLE_FORMULA,generate(procedural-canvas)
+props,potholes / rocks / roadside cow / dinar cash / wrench pickups / smoke + spark particles / dashboard gauges / HUD,procedural,flat-vector shapes drawn in canvas tuned to the palette,procedural,STYLE_FORMULA,generate(procedural-canvas)
