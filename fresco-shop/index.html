@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FRESCO. Die smarte Sporttasche</title>
+<meta name="description" content="FRESCO löst das Stink und Hygiene Problem klassischer Sporttaschen: belüftetes Schuhfach, gekühltes Getränkefach, eingebaute UV-C Desinfektion und wasserdichtes Handtuchfach. Immer frisch dabei.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://lukopuko.github.io/claude-skills-lab/fresco-shop/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lukopuko.github.io/claude-skills-lab/fresco-shop/">
+<meta property="og:title" content="FRESCO. Die smarte Sporttasche">
+<meta property="og:description" content="Belüftetes Schuhfach, gekühltes Getränkefach, UV-C Desinfektion und wasserdichtes Handtuchfach. Immer frisch dabei.">
+<meta property="og:image" content="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0A0C10">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-inner glass">
+      <a href="#top" class="brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 12c1.5-4 4-6 6-6s4.5 2 6 6" stroke="#0A0C10" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="14" r="1.6" fill="#0A0C10"/></svg>
+        </span>
+        FRESCO
+      </a>
+      <ul class="nav-links">
+        <li><a href="#explorer">Merkmale</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#specs">Specs</a></li>
+        <li><a href="#invest">Investoren</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartOpenBtn" aria-label="Warenkorb öffnen" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.8h8.2a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9.5" cy="20.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="20.5" r="1.4" fill="currentColor" stroke="none"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Smarte Sporttasche</p>
+        <h1>Immer frisch<br>dabei<em>.</em></h1>
+        <p>FRESCO löst das Stink und Hygiene Problem klassischer Sporttaschen: getrenntes belüftetes Schuhfach, gekühltes Getränkefach und eine eingebaute UV-C Desinfektion per Knopfdruck. Für alle mit Sport, Schwimm oder Fitnessroutine.</p>
+        <div class="hero-ctas">
+          <a href="#shop" class="btn btn-primary">Jetzt entdecken</a>
+          <a href="#explorer" class="btn btn-ghost">Merkmale ansehen</a>
+        </div>
+        <div class="hero-facts">
+          <div class="hero-fact"><span class="num mono">99,9%</span><span class="lbl">Keimreduktion</span></div>
+          <div class="hero-fact"><span class="num mono">3 Wochen</span><span class="lbl">Akkulaufzeit</span></div>
+          <div class="hero-fact"><span class="num mono">IPX5</span><span class="lbl">Wasserdicht</span></div>
+        </div>
+      </div>
+
+      <div class="viewer-wrap glass" id="viewerWrap">
+        <div class="viewer-stage" id="viewerStage"></div>
+        <div class="viewer-loading" id="viewerLoading"><span class="spin"></span> Modell lädt</div>
+        <div class="viewer-fallback">
+          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png" alt="FRESCO Sporttasche in Slate" width="900" height="900">
+        </div>
+        <div class="viewer-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3"/></svg>
+          Ziehen zum Drehen
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURE EXPLORER -->
+  <section class="section" id="explorer">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Fünf Merkmale, ein Griff</h2>
+        <p>Jeder Punkt auf dem Foto zeigt, wie FRESCO das Stink und Hygiene Problem klassischer Sporttaschen löst. Antippen für Details.</p>
+      </div>
+      <div class="explorer-grid reveal">
+        <div class="explorer-photo glass">
+          <div class="explorer-photo-inner">
+            <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png" alt="FRESCO Sporttasche mit markierten Merkmalen" id="explorerImg">
+            <!-- Hotspot positions are best-effort estimates (percent of image box); adjust top/left once the exact photo layout is confirmed visually. -->
+            <button class="hotspot active" data-feature="0" style="left:50%; top:11%;" aria-label="Merkmal 1: Handtuchfach"><span class="idx">1</span></button>
+            <button class="hotspot" data-feature="1" style="left:50%; top:44%;" aria-label="Merkmal 2: Ladeanschluss und LED"><span class="idx">2</span></button>
+            <button class="hotspot" data-feature="2" style="left:50%; top:29%;" aria-label="Merkmal 3: UV-C Desinfektion"><span class="idx">3</span></button>
+            <button class="hotspot" data-feature="3" style="left:80%; top:64%;" aria-label="Merkmal 4: Schuhfach"><span class="idx">4</span></button>
+            <button class="hotspot" data-feature="4" style="left:16%; top:60%;" aria-label="Merkmal 5: Getränkefach"><span class="idx">5</span></button>
+          </div>
+        </div>
+        <div class="explorer-detail glass" id="explorerDetail">
+          <!-- filled by script.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section class="section section-alt" id="shop">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Wähle deine FRESCO</h2>
+        <p>Drei Farben, drei Größen. Der Preis passt sich live an deine Auswahl an.</p>
+      </div>
+      <div class="shop-grid reveal">
+        <div class="shop-preview glass">
+          <div class="shop-preview-inner" id="shopPreview">
+            <img data-color="slate" class="active" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png" alt="FRESCO in Slate">
+            <img data-color="onyx" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102854_d98d81cf-d658-4d3f-8068-88ca8a51a2d9.png" alt="FRESCO in Onyx">
+            <img data-color="stone" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102900_30c83086-e2c9-4db6-9e56-368cd19979c7.png" alt="FRESCO in Stone">
+          </div>
+        </div>
+
+        <div class="shop-config glass">
+          <div class="config-row">
+            <label class="group-label">Farbe</label>
+            <div class="swatches" id="swatches" role="radiogroup" aria-label="Farbe wählen"></div>
+            <p class="swatch-caption" id="swatchCaption"></p>
+          </div>
+
+          <div class="config-row">
+            <label class="group-label">Größe</label>
+            <div class="sizes" id="sizes" role="radiogroup" aria-label="Größe wählen"></div>
+          </div>
+
+          <div class="config-row">
+            <label class="group-label">Menge</label>
+            <div class="qty-row">
+              <div class="qty-stepper">
+                <button type="button" id="qtyMinus" aria-label="Menge verringern">−</button>
+                <span class="qty-val mono" id="qtyVal">1</span>
+                <button type="button" id="qtyPlus" aria-label="Menge erhöhen">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <span class="price-label">Zwischensumme</span>
+            <span class="price-val mono" id="unitTotal">49,99 €</span>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="addToCartBtn">In den Warenkorb</button>
+          <p class="add-feedback" id="addFeedback">Zum Warenkorb hinzugefügt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section class="section" id="specs">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2>Auf einen Blick</h2>
+      </div>
+      <div class="specs-grid reveal">
+        <div class="spec-tile glass"><span class="val">99,9<span>%</span></span><span class="lbl">Keimreduktion durch UV-C</span></div>
+        <div class="spec-tile glass"><span class="val">3<span> Wochen</span></span><span class="lbl">Akkulaufzeit pro Ladung</span></div>
+        <div class="spec-tile glass"><span class="val">35<span>L</span></span><span class="lbl">Volumen, Größe M</span></div>
+        <div class="spec-tile glass"><span class="val">IPX5</span><span class="lbl">Wasserdichtes Handtuchfach</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVESTORS -->
+  <section class="section section-alt" id="invest">
+    <div class="wrap">
+      <div class="invest-card glass reveal">
+        <div class="invest-copy">
+          <p class="eyebrow">Investoren Angebot</p>
+          <h2>Wir suchen Partner, die mitwachsen.</h2>
+          <p>FRESCO ist als Schülerprojekt entstanden, im Pitch Format der Höhle der Löwen. Wir bieten Unternehmensanteile im Austausch für Kapital, das in Produktion und Vertrieb fließt.</p>
+          <p class="context">Dieses Angebot ist Teil eines Schülerprojekts und dient der Pitch Übung. Es handelt sich nicht um ein aktives, rechtlich bindendes Investmentangebot.</p>
+        </div>
+        <div class="invest-stats">
+          <div class="invest-stat highlight"><span class="lbl">Investment</span><span class="val mono">500.000 €</span></div>
+          <div class="invest-stat"><span class="lbl">Unternehmensanteile</span><span class="val mono">10%</span></div>
+          <div class="invest-stat"><span class="lbl">Bewertung</span><span class="val mono">5.000.000 €</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" style="width:26px;height:26px;">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 12c1.5-4 4-6 6-6s4.5 2 6 6" stroke="#0A0C10" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="14" r="1.6" fill="#0A0C10"/></svg>
+      </span>
+      FRESCO
+    </div>
+    <ul class="footer-links">
+      <li>Immer frisch dabei.</li>
+    </ul>
+    <p class="footer-note">Demo Shop. Keine echte Zahlungsabwicklung.</p>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="cartOverlay"></div>
+<aside class="cart-drawer glass" id="cartDrawer" role="dialog" aria-label="Warenkorb" aria-hidden="true">
+  <div class="cart-head">
+    <h3>Warenkorb</h3>
+    <button class="cart-close" id="cartCloseBtn" aria-label="Warenkorb schließen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-subtotal">
+      <span class="lbl">Zwischensumme</span>
+      <span class="val mono" id="cartSubtotal">0,00 €</span>
+    </div>
+    <button class="btn btn-primary btn-block" id="checkoutBtn" disabled>Zur Kasse (Demo)</button>
+    <p class="cart-demo-note">Demo Checkout. Es wird keine echte Zahlung ausgelöst.</p>
+  </div>
+</aside>
+
+<!-- CHECKOUT CONFIRMATION MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-card glass">
+    <span class="modal-badge">Demo</span>
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <h3>Bestellung bestätigt</h3>
+    <p>Dies ist eine Demo Bestellung ohne echtes Zahlungssystem. Es wurde keine Zahlung durchgeführt und kein Produkt versendet.</p>
+    <p class="modal-order mono" id="modalOrderNumber">Bestellnummer DEMO 000000</p>
+    <button class="btn btn-primary btn-block" id="modalCloseBtn">Fertig</button>
+  </div>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
