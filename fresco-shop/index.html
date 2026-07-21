@@ -14,7 +14,7 @@
 <meta property="og:description" content="Belüftetes Schuhfach, gekühltes Getränkefach, UV-C Desinfektion und wasserdichtes Handtuchfach. Immer frisch dabei.">
 <meta property="og:image" content="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0A0C10">
+<meta name="theme-color" content="#F2F6FB">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,7 @@
     <div class="nav-inner glass">
       <a href="#top" class="brand">
         <span class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M6 12c1.5-4 4-6 6-6s4.5 2 6 6" stroke="#0A0C10" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="14" r="1.6" fill="#0A0C10"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 12c1.5-4 4-6 6-6s4.5 2 6 6" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="14" r="1.6" fill="#FFFFFF"/></svg>
         </span>
         FRESCO
       </a>
@@ -62,7 +62,7 @@
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Smarte Sporttasche</p>
-        <h1>Immer frisch<br>dabei<em>.</em></h1>
+        <h1>Immer <span class="grad">frisch</span><br>dabei<em>.</em></h1>
         <p>FRESCO löst das Stink und Hygiene Problem klassischer Sporttaschen: getrenntes belüftetes Schuhfach, gekühltes Getränkefach und eine eingebaute UV-C Desinfektion per Knopfdruck. Für alle mit Sport, Schwimm oder Fitnessroutine.</p>
         <div class="hero-ctas">
           <a href="#shop" class="btn btn-primary">Jetzt entdecken</a>
@@ -75,15 +75,20 @@
         </div>
       </div>
 
-      <div class="viewer-wrap glass" id="viewerWrap">
-        <div class="viewer-stage" id="viewerStage"></div>
-        <div class="viewer-loading" id="viewerLoading"><span class="spin"></span> Modell lädt</div>
-        <div class="viewer-fallback">
-          <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png" alt="FRESCO Sporttasche in Slate" width="900" height="900">
-        </div>
-        <div class="viewer-hint">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3"/></svg>
-          Ziehen zum Drehen
+      <div class="hero-visual">
+        <div class="orb orb-a" aria-hidden="true"></div>
+        <div class="orb orb-b" aria-hidden="true"></div>
+        <div class="viewer-wrap glass" id="viewerWrap">
+          <div class="viewer-stage" id="viewerStage"></div>
+          <div class="viewer-loading" id="viewerLoading"><span class="spin"></span> Modell lädt</div>
+          <div class="viewer-fallback">
+            <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Ass4iKdEY6esxC3X2TBHE2ggP4/hf_20260717_102103_e07d62df-47a1-4be1-a756-7550796a200d.png" alt="FRESCO Sporttasche in Slate" width="900" height="900">
+          </div>
+          <div class="viewer-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3"/></svg>
+            Ziehen zum Drehen
+          </div>
+          <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -172,11 +177,11 @@
       <div class="section-head reveal">
         <h2>Auf einen Blick</h2>
       </div>
-      <div class="specs-grid reveal">
-        <div class="spec-tile glass"><span class="val">99,9<span>%</span></span><span class="lbl">Keimreduktion durch UV-C</span></div>
-        <div class="spec-tile glass"><span class="val">3<span> Wochen</span></span><span class="lbl">Akkulaufzeit pro Ladung</span></div>
-        <div class="spec-tile glass"><span class="val">35<span>L</span></span><span class="lbl">Volumen, Größe M</span></div>
-        <div class="spec-tile glass"><span class="val">IPX5</span><span class="lbl">Wasserdichtes Handtuchfach</span></div>
+      <div class="specs-grid">
+        <div class="spec-tile glass reveal"><span class="val"><span class="count" data-target="99.9" data-decimals="1">0</span><span class="suffix">%</span></span><span class="lbl">Keimreduktion durch UV-C</span></div>
+        <div class="spec-tile glass reveal"><span class="val"><span class="count" data-target="3" data-decimals="0">0</span><span class="suffix"> Wochen</span></span><span class="lbl">Akkulaufzeit pro Ladung</span></div>
+        <div class="spec-tile glass reveal"><span class="val"><span class="count" data-target="35" data-decimals="0">0</span><span class="suffix">L</span></span><span class="lbl">Volumen, Größe M</span></div>
+        <div class="spec-tile glass reveal"><span class="val">IPX5</span><span class="lbl">Wasserdichtes Handtuchfach</span></div>
       </div>
     </div>
   </section>

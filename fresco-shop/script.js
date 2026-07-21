@@ -213,6 +213,11 @@
     addFeedbackEl.classList.add('show');
     clearTimeout(addFeedbackTimer);
     addFeedbackTimer = setTimeout(function () { addFeedbackEl.classList.remove('show'); }, 2400);
+
+    var cartBtn = byId('cartOpenBtn');
+    cartBtn.classList.remove('bump');
+    void cartBtn.offsetWidth;
+    cartBtn.classList.add('bump');
   });
 
   /* ---------------------------------------------------------------------
@@ -413,6 +418,67 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
     revealEls.forEach(function (el) { io.observe(el); });
   }
+
+  /* ---------------------------------------------------------------------
+   * Specs grid: animated count-up when scrolled into view
+   * ------------------------------------------------------------------- */
+
+  var countEls = Array.prototype.slice.call(document.querySelectorAll('.count[data-target]'));
+  function formatCount(value, decimals) {
+    return value.toLocaleString('de-DE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
+  function runCount(el) {
+    var target = parseFloat(el.dataset.target);
+    var decimals = parseInt(el.dataset.decimals || '0', 10);
+    if (prefersReduced) { el.textContent = formatCount(target, decimals); return; }
+    var duration = 1100;
+    var start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      var progress = Math.min(1, (ts - start) / duration);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = formatCount(target * eased, decimals);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if (countEls.length) {
+    if (!('IntersectionObserver' in window)) {
+      countEls.forEach(runCount);
+    } else {
+      var countIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            runCount(entry.target);
+            countIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      countEls.forEach(function (el) { countIo.observe(el); });
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+   * Hero product card: cursor-follow glow (fine pointers, motion allowed)
+   * ------------------------------------------------------------------- */
+
+  (function initHeroGlow() {
+    var glow = byId('heroGlow');
+    var stageWrap = byId('viewerWrap');
+    if (!glow || !stageWrap) return;
+    var canHover = window.matchMedia('(pointer: fine)').matches;
+    if (prefersReduced || !canHover) return;
+
+    stageWrap.addEventListener('pointerenter', function () { glow.classList.add('active'); });
+    stageWrap.addEventListener('pointerleave', function () { glow.classList.remove('active'); });
+    stageWrap.addEventListener('pointermove', function (e) {
+      var rect = stageWrap.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width) * 100;
+      var y = ((e.clientY - rect.top) / rect.height) * 100;
+      glow.style.setProperty('--mx', x + '%');
+      glow.style.setProperty('--my', y + '%');
+    });
+  })();
 
   /* ---------------------------------------------------------------------
    * Init
